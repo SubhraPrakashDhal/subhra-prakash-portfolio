@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { Marquee } from '../utils/components';
@@ -10,6 +10,10 @@ import { SEO } from '../components/SEO';
 export const Skills: React.FC = () => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number>(0);
   const { setCursorHover, resetCursor } = useCursor();
+
+  const activeSkills = useMemo(() => {
+    return SKILL_CATEGORIES[activeCategoryIndex]?.skills || [];
+  }, [activeCategoryIndex]);
 
   return (
     <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-16">
@@ -23,7 +27,7 @@ export const Skills: React.FC = () => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
         >
@@ -32,7 +36,7 @@ export const Skills: React.FC = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.1, duration: 0.6 }}
           className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
         >
@@ -41,7 +45,7 @@ export const Skills: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-gray-400 text-base md:text-lg"
         >
@@ -53,7 +57,7 @@ export const Skills: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
         className="border-y border-white/10 py-4 bg-cyan-950/20 backdrop-blur-md"
       >
@@ -87,7 +91,7 @@ export const Skills: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.5 }}
         className="flex flex-wrap justify-center gap-3"
       >
@@ -116,14 +120,14 @@ export const Skills: React.FC = () => {
 
       {/* 4. Active Category Skills Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {SKILL_CATEGORIES[activeCategoryIndex].skills.map((skill, idx) => (
+        {activeSkills.map((skill, idx) => (
           <motion.div
             key={skill.name}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: idx * 0.08, duration: 0.5 }}
-            className="glass-panel p-6 rounded-3xl border border-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300 space-y-4"
+            className="glass-panel p-6 rounded-3xl border border-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300 space-y-4 transform-gpu"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -140,9 +144,9 @@ export const Skills: React.FC = () => {
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.level}%` }}
-                viewport={{ once: false, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 1, ease: 'easeOut', delay: idx * 0.08 }}
-                className="h-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF]"
+                className="h-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] transform-gpu"
               />
             </div>
           </motion.div>

@@ -39,7 +39,7 @@ export const Home: React.FC = () => {
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: idx * 0.08, duration: 0.5 }}
               className="glass-panel p-5 rounded-3xl border border-white/10 text-center hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300"
             >
@@ -105,7 +105,9 @@ export const Home: React.FC = () => {
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-105"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-105 transform-gpu"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
 
@@ -177,7 +179,7 @@ export const Home: React.FC = () => {
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
         className="relative overflow-hidden py-8 bg-transparent"
       >
@@ -257,7 +259,7 @@ export const Home: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
           className="relative rounded-3xl glass-panel p-8 md:p-16 border border-cyan-400/40 text-center overflow-hidden shadow-[0_0_60px_rgba(0,240,255,0.2)]"
         >

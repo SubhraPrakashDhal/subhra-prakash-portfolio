@@ -15,28 +15,28 @@ export const RootLayout: React.FC = () => {
   // Initialize Lenis Smooth Scroll
   useLenis();
 
-  // Page Transition Variants (Apple / Linear / Awwwards Cinematic Reveal)
+  // Hardware-Accelerated Cinematic Page Transition Variants (Apple / Linear / Awwwards)
   const pageVariants: Variants = {
     initial: {
       opacity: 0,
-      scale: 0.97,
-      filter: 'blur(10px)',
+      scale: 0.985,
+      y: 12,
     },
     animate: {
       opacity: 1,
       scale: 1,
-      filter: 'blur(0px)',
+      y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.45,
         ease: [0.16, 1, 0.3, 1],
       },
     },
     exit: {
       opacity: 0,
-      scale: 1.02,
-      filter: 'blur(12px)',
+      scale: 1.01,
+      y: -8,
       transition: {
-        duration: 0.4,
+        duration: 0.28,
         ease: [0.7, 0, 0.84, 0],
       },
     },
@@ -73,7 +73,7 @@ export const RootLayout: React.FC = () => {
             onAnimationStart={() => {
               scrollToTop(true);
             }}
-            className="w-full"
+            className="w-full transform-gpu"
           >
             {currentOutlet}
           </motion.div>

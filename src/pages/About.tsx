@@ -24,7 +24,7 @@ export const About: React.FC = () => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
         >
@@ -33,7 +33,7 @@ export const About: React.FC = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.1, duration: 0.6 }}
           className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
         >
@@ -42,7 +42,7 @@ export const About: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-gray-400 text-base md:text-lg"
         >
@@ -54,9 +54,9 @@ export const About: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center [perspective:1000px]">
         {/* Left Column: Portrait & Stats Cards */}
         <motion.div
-          initial={{ opacity: 0, x: -80, rotateY: -15, scale: 0.9 }}
-          whileInView={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
           className="lg:col-span-5 flex flex-col items-center"
         >
@@ -79,7 +79,9 @@ export const About: React.FC = () => {
                 <img
                   src={subhraPicImg}
                   alt="Subhra Prakash Dhal"
-                  className="w-full h-full object-cover object-top filter contrast-105 saturate-[1.05]"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover object-top filter contrast-105 saturate-[1.05] transform-gpu"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-90" />
 
@@ -100,7 +102,7 @@ export const About: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: 0.2, duration: 0.5 }}
               className="glass-panel p-4 rounded-2xl border border-white/10 text-center"
             >
@@ -112,7 +114,7 @@ export const About: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               className="glass-panel p-4 rounded-2xl border border-white/10 text-center"
             >
@@ -128,7 +130,7 @@ export const About: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: 80, scale: 0.95 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
           className="lg:col-span-7 space-y-6"
         >
@@ -153,7 +155,7 @@ export const About: React.FC = () => {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                 className="glass-card p-4 border border-white/10 space-y-1"
               >
@@ -170,7 +172,7 @@ export const About: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="pt-6 border-t border-white/10 space-y-4"
           >

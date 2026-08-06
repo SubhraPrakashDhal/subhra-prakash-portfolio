@@ -20,7 +20,7 @@ export const Experience: React.FC = () => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
         >
@@ -29,7 +29,7 @@ export const Experience: React.FC = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.1, duration: 0.6 }}
           className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
         >
@@ -38,7 +38,7 @@ export const Experience: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-gray-400 text-base md:text-lg"
         >
@@ -59,20 +59,16 @@ export const Experience: React.FC = () => {
                 key={exp.id}
                 initial={{
                   opacity: 0,
-                  x: isEven ? 80 : -80,
-                  rotateY: isEven ? 15 : -15,
-                  scale: 0.9,
+                  y: 25,
                 }}
                 whileInView={{
                   opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  scale: 1,
+                  y: 0,
                 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1], delay: (idx % 2) * 0.1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, ease: 'easeOut', delay: (idx % 2) * 0.1 }}
                 style={{ transformStyle: 'preserve-3d' }}
-                className={`relative flex flex-col md:flex-row items-center ${
+                className={`relative flex flex-col md:flex-row items-center transform-gpu ${
                   isEven ? 'md:flex-row-reverse' : ''
                 }`}
               >

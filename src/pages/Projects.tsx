@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ExternalLink, Sparkles, X, CheckCircle2, Layers } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
@@ -16,14 +16,16 @@ export const Projects: React.FC = () => {
 
   const categories = ['All', 'Full Stack', 'Frontend', 'Backend', 'AI & Cloud'];
 
-  const filteredProjects = PROJECTS.filter((project) => {
-    const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
-    const matchesSearch =
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.techStack.some((tech) => tech.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+  const filteredProjects = useMemo(() => {
+    return PROJECTS.filter((project) => {
+      const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
+      const matchesSearch =
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.techStack.some((tech) => tech.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
 
   return (
     <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-12">
@@ -37,7 +39,7 @@ export const Projects: React.FC = () => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
         >
@@ -46,7 +48,7 @@ export const Projects: React.FC = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.1, duration: 0.6 }}
           className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
         >
@@ -55,7 +57,7 @@ export const Projects: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-gray-400 text-base md:text-lg"
         >
@@ -67,7 +69,7 @@ export const Projects: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
         className="flex flex-col md:flex-row items-center justify-between gap-6 glass-panel p-4 rounded-3xl border border-white/10"
       >
@@ -120,19 +122,15 @@ export const Projects: React.FC = () => {
                 layout
                 initial={{
                   opacity: 0,
-                  x: isEven ? -60 : 60,
-                  rotateY: isEven ? -15 : 15,
-                  scale: 0.9,
+                  y: 25,
                 }}
                 whileInView={{
                   opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  scale: 1,
+                  y: 0,
                 }}
-                viewport={{ once: false, amount: 0.15 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.6, delay: (idx % 3) * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
+                viewport={{ once: true, amount: 0.15 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5, delay: (idx % 3) * 0.08, ease: 'easeOut' }}
                 style={{ transformStyle: 'preserve-3d' }}
               >
               <Tilt
@@ -157,7 +155,9 @@ export const Projects: React.FC = () => {
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
                       <div className="absolute top-3 left-3">

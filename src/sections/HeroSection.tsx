@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, Download, Mail, Sparkles, Code, Cpu, Layers } from 'lucide-react';
@@ -7,25 +7,37 @@ import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { PERSONAL_INFO } from '../constants/portfolio';
 import { useHeartBurst } from '../hooks/useHeartBurst';
+import { initMagneticElement } from '../utils/animations';
 import subhraProfImg from '../assets/Subhra_Prof.webp';
 
 export const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const btn1Ref = useRef<HTMLAnchorElement>(null);
+  const btn2Ref = useRef<HTMLAnchorElement>(null);
+  const btn3Ref = useRef<HTMLAnchorElement>(null);
+
   const { setCursorHover, resetCursor } = useCursor();
   const { triggerHeartBurst, HeartOverlay } = useHeartBurst();
 
-  // Scroll Interpolation (Apple Keynote Style)
+  // Smooth Scroll Interpolation (Pure vertical Y translation & scale to avoid 3D matrix shaking)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  const portraitScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.65]);
-  const portraitY = useTransform(scrollYProgress, [0, 0.8], [0, -120]);
-  const portraitRotate = useTransform(scrollYProgress, [0, 0.8], [0, -6]);
+  const portraitScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9]);
+  const portraitY = useTransform(scrollYProgress, [0, 0.8], [0, -50]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.2]);
-  const textScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.9]);
+  const textScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.95]);
 
+  // Magnetic Hover Physics for CTAs
+  useEffect(() => {
+    const cleanups: Array<() => void> = [];
+    if (btn1Ref.current) cleanups.push(initMagneticElement(btn1Ref.current, 0.25));
+    if (btn2Ref.current) cleanups.push(initMagneticElement(btn2Ref.current, 0.25));
+    if (btn3Ref.current) cleanups.push(initMagneticElement(btn3Ref.current, 0.25));
+    return () => cleanups.forEach((c) => c());
+  }, []);
 
   return (
     <section
@@ -36,15 +48,15 @@ export const HeroSection: React.FC = () => {
         {/* Left Column: Typography & CTAs */}
         <motion.div
           style={{ opacity: textOpacity, scale: textScale }}
-          className="lg:col-span-7 flex flex-col justify-center space-y-6 z-10"
+          className="lg:col-span-7 flex flex-col justify-center space-y-6 z-10 transform-gpu"
         >
           {/* Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)] transform-gpu"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="font-mono text-xs font-bold text-cyan-300 tracking-widest uppercase">
@@ -52,12 +64,12 @@ export const HeroSection: React.FC = () => {
             </span>
           </motion.div>
 
-          {/* Heading with Letter-by-Letter Reveal */}
+          {/* Heading with Letter-by-Letter Stagger Reveal */}
           <div className="space-y-2">
             <motion.h2
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-gray-400 text-lg md:text-2xl font-mono tracking-wider"
             >
@@ -67,24 +79,28 @@ export const HeroSection: React.FC = () => {
             <motion.h1
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight"
             >
               {/* Line 1 on mobile: Subhra Prakash */}
               <span className="inline-flex flex-wrap items-center mr-3">
-                {Array.from("Subhra Prakash").map((char, index) => (
+                {Array.from('Subhra Prakash').map((char, index) => (
                   <motion.span
                     key={`first-${index}`}
-                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: false, amount: 0.2 }}
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
                     transition={{
-                      duration: 0.5,
-                      delay: 0.2 + index * 0.03,
+                      duration: 0.45,
+                      delay: 0.15 + index * 0.025,
                       ease: [0.215, 0.61, 0.355, 1],
                     }}
-                    className={char === ' ' ? 'mr-2.5 sm:mr-4' : 'inline-block hover:text-cyan-400 transition-colors duration-200'}
+                    className={
+                      char === ' '
+                        ? 'mr-2.5 sm:mr-4'
+                        : 'inline-block hover:text-cyan-400 transition-colors duration-200 transform-gpu'
+                    }
                   >
                     {char}
                   </motion.span>
@@ -93,18 +109,18 @@ export const HeroSection: React.FC = () => {
 
               {/* Line 2 on mobile: Dhal */}
               <span className="block sm:inline-block">
-                {Array.from("Dhal").map((char, index) => (
+                {Array.from('Dhal').map((char, index) => (
                   <motion.span
                     key={`last-${index}`}
-                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: false, amount: 0.2 }}
+                    initial={{ opacity: 0, y: 35 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
                     transition={{
-                      duration: 0.5,
-                      delay: 0.2 + (index + 15) * 0.03,
+                      duration: 0.45,
+                      delay: 0.15 + (index + 15) * 0.025,
                       ease: [0.215, 0.61, 0.355, 1],
                     }}
-                    className="inline-block hover:text-cyan-400 transition-colors duration-200"
+                    className="inline-block hover:text-cyan-400 transition-colors duration-200 transform-gpu"
                   >
                     {char}
                   </motion.span>
@@ -116,9 +132,9 @@ export const HeroSection: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2"
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2 transform-gpu"
             >
               Frontend Developer | UI/UX Developer | MERN Stack Developer
             </motion.div>
@@ -128,8 +144,8 @@ export const HeroSection: React.FC = () => {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed"
           >
             Passionate Frontend & UI/UX Developer specializing in React.js, TypeScript, Tailwind CSS, and the MERN stack. Building scalable enterprise dashboards, AI-powered e-commerce platforms, and user-centric web applications.
@@ -139,9 +155,9 @@ export const HeroSection: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap gap-2 pt-2"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="flex flex-wrap gap-2 pt-2 transform-gpu"
           >
             {[
               { icon: Code, text: 'MERN Stack' },
@@ -162,16 +178,17 @@ export const HeroSection: React.FC = () => {
             })}
           </motion.div>
 
-          {/* Magnetic CTA Buttons */}
+          {/* GSAP Magnetic CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="flex flex-wrap items-center gap-4 pt-4"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex flex-wrap items-center gap-4 pt-4 transform-gpu"
           >
             {/* View Projects Button */}
             <NavLink
+              ref={btn1Ref}
               to="/projects"
               onMouseEnter={() => {
                 setCursorHover('PROJECTS');
@@ -179,7 +196,7 @@ export const HeroSection: React.FC = () => {
               }}
               onMouseLeave={resetCursor}
               onClick={() => sound.playClick()}
-              className="group relative px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-violet-600 to-pink-600 font-extrabold text-sm text-white tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all duration-300 flex items-center space-x-2 overflow-hidden cursor-pointer"
+              className="group relative px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-violet-600 to-pink-600 font-extrabold text-sm text-white tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all duration-300 flex items-center space-x-2 overflow-hidden cursor-pointer transform-gpu"
             >
               <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
               <span>VIEW PROJECTS</span>
@@ -188,6 +205,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Download Resume Button */}
             <a
+              ref={btn2Ref}
               href={PERSONAL_INFO.resumeUrl}
               download="Subhra_React_Developer_resume.pdf"
               target="_blank"
@@ -198,7 +216,7 @@ export const HeroSection: React.FC = () => {
               }}
               onMouseLeave={resetCursor}
               onClick={() => sound.playClick()}
-              className="px-6 py-3.5 rounded-2xl glass-panel border border-white/20 hover:border-cyan-400/60 text-white font-bold text-sm tracking-wider hover:bg-white/10 transition-all duration-300 flex items-center space-x-2 cursor-pointer shadow-lg"
+              className="px-6 py-3.5 rounded-2xl glass-panel border border-white/20 hover:border-cyan-400/60 text-white font-bold text-sm tracking-wider hover:bg-white/10 transition-all duration-300 flex items-center space-x-2 cursor-pointer shadow-lg transform-gpu"
             >
               <Download size={16} className="text-cyan-400" />
               <span>RESUME</span>
@@ -206,6 +224,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Contact Me Button */}
             <NavLink
+              ref={btn3Ref}
               to="/contact"
               onMouseEnter={() => {
                 setCursorHover('GET IN TOUCH');
@@ -213,7 +232,7 @@ export const HeroSection: React.FC = () => {
               }}
               onMouseLeave={resetCursor}
               onClick={() => sound.playClick()}
-              className="px-6 py-3.5 rounded-2xl glass-panel border border-white/10 hover:border-violet-400/60 text-gray-300 hover:text-white font-bold text-sm tracking-wider transition-all duration-300 flex items-center space-x-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl glass-panel border border-white/10 hover:border-violet-400/60 text-gray-300 hover:text-white font-bold text-sm tracking-wider transition-all duration-300 flex items-center space-x-2 cursor-pointer transform-gpu"
             >
               <Mail size={16} className="text-violet-400" />
               <span>CONTACT ME</span>
@@ -221,27 +240,30 @@ export const HeroSection: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Interactive 3D/Tilt Portrait Card */}
+        {/* Right Column: Interactive 3D/Tilt Portrait Card (Smoothed & Shake-Free) */}
         <motion.div
           style={{
             scale: portraitScale,
             y: portraitY,
-            rotate: portraitRotate,
           }}
-          className="lg:col-span-5 flex justify-center items-center z-20"
+          className="lg:col-span-5 flex justify-center items-center z-20 transform-gpu"
         >
           <Tilt
-            tiltMaxAngleX={12}
-            tiltMaxAngleY={12}
+            tiltMaxAngleX={6}
+            tiltMaxAngleY={6}
             perspective={1000}
-            transitionSpeed={1200}
-            scale={1.02}
+            transitionSpeed={1500}
+            scale={1.01}
             className="w-full max-w-md"
           >
             <div
               onMouseEnter={() => setCursorHover('EXPLORE')}
               onMouseLeave={resetCursor}
-              className="group relative rounded-3xl p-1 bg-gradient-to-br from-cyan-400/40 via-violet-500/20 to-pink-500/40 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,240,255,0.25)] border border-cyan-400/30 overflow-hidden light-sweep-effect"
+              className="group relative rounded-3xl p-1 bg-gradient-to-br from-cyan-400/40 via-violet-500/20 to-pink-500/40 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,240,255,0.25)] border border-cyan-400/30 overflow-hidden light-sweep-effect transform-gpu"
+              style={{
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+              }}
             >
               {/* Glowing Background Halo inside card */}
               <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-violet-500/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
@@ -258,11 +280,14 @@ export const HeroSection: React.FC = () => {
                 <img
                   src={subhraProfImg}
                   alt="Subhra Prakash Dhal Portrait"
-                  className="absolute inset-0 w-full h-full object-cover object-top filter saturate-[1.1] contrast-[1.1] group-hover:scale-105 transition-transform duration-700"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 transform-gpu"
                 />
 
                 {/* Floating Overlay Card (Interactive Glass Widget) */}
-                <div className="relative z-20 glass-panel p-4 rounded-2xl border border-white/20 shadow-2xl flex items-center justify-between">
+                <div className="relative z-20 glass-panel p-4 rounded-2xl border border-white/20 shadow-2xl flex items-center justify-between transform-gpu">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-xl bg-cyan-400/20 border border-cyan-400/50 flex items-center justify-center font-mono font-bold text-cyan-400">
                       SPD
@@ -290,7 +315,7 @@ export const HeroSection: React.FC = () => {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 pointer-events-none opacity-60"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 pointer-events-none opacity-60 transform-gpu"
       >
         <span className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest">
           SCROLL TO EXPLORE

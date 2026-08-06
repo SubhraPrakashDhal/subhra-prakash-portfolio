@@ -63,7 +63,7 @@ export const Contact: React.FC = () => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
           className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
         >
@@ -72,7 +72,7 @@ export const Contact: React.FC = () => {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.1, duration: 0.6 }}
           className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
         >
@@ -81,7 +81,7 @@ export const Contact: React.FC = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-gray-400 text-base md:text-lg"
         >
@@ -94,9 +94,9 @@ export const Contact: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: -60, scale: 0.95 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-          className="lg:col-span-5 space-y-6"
+          className="lg:col-span-5 space-y-6 transform-gpu"
         >
           <div className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 space-y-6">
             <h3 className="text-2xl font-black text-white tracking-tight">Direct Information</h3>
@@ -235,9 +235,9 @@ export const Contact: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, x: 60, scale: 0.95 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-          className="lg:col-span-7"
+          className="lg:col-span-7 transform-gpu"
         >
           <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} perspective={1000}>
             <div className="glass-panel p-6 md:p-10 rounded-3xl border border-cyan-400/30 shadow-[0_0_50px_rgba(0,240,255,0.15)] relative overflow-hidden">

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 
 export type CursorVariant = 'default' | 'hover' | 'magnetic' | 'project' | 'button' | 'nav' | 'text' | 'hidden';
 
@@ -20,7 +20,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [cursorText, setCursorText] = useState<string>('');
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const setCursorHover = (text: string = '', variant?: CursorVariant) => {
+  const setCursorHover = useCallback((text: string = '', variant?: CursorVariant) => {
     let targetVariant: CursorVariant = variant || 'hover';
 
     if (!variant && text) {
@@ -37,30 +37,29 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setCursorVariant(targetVariant);
     setCursorText(text);
     setIsHovered(true);
-  };
+  }, []);
 
-  const resetCursor = () => {
+  const resetCursor = useCallback(() => {
     setCursorVariant('default');
     setCursorText('');
     setIsHovered(false);
-  };
+  }, []);
 
-  return (
-    <CursorContext.Provider
-      value={{
-        cursorVariant,
-        setCursorVariant,
-        cursorText,
-        setCursorText,
-        isHovered,
-        setIsHovered,
-        setCursorHover,
-        resetCursor,
-      }}
-    >
-      {children}
-    </CursorContext.Provider>
+  const value = useMemo(
+    () => ({
+      cursorVariant,
+      setCursorVariant,
+      cursorText,
+      setCursorText,
+      isHovered,
+      setIsHovered,
+      setCursorHover,
+      resetCursor,
+    }),
+    [cursorVariant, cursorText, isHovered, setCursorHover, resetCursor]
   );
+
+  return <CursorContext.Provider value={value}>{children}</CursorContext.Provider>;
 };
 
 export const useCursor = () => {

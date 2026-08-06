@@ -25,10 +25,17 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 40);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -142,7 +149,7 @@ export const Navbar: React.FC = () => {
             {/* Right Action Controls */}
             <div className="flex items-center space-x-3 relative z-20">
               {/* Audio Synth Toggle Button */}
-              <button
+              {/* <button
                 onClick={toggleSound}
                 onMouseEnter={() => setCursorHover(isSoundOn ? 'MUTE' : 'UNMUTE')}
                 onMouseLeave={resetCursor}
@@ -151,7 +158,7 @@ export const Navbar: React.FC = () => {
                 title={isSoundOn ? 'Mute Sound FX' : 'Enable Sound FX'}
               >
                 {isSoundOn ? <Volume2 size={16} /> : <VolumeX size={16} className="text-gray-500" />}
-              </button>
+              </button> */}
 
               {/* Download Resume Button */}
               <a
