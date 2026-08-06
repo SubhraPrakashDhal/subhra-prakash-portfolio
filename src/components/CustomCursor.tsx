@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, memo } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useSpring, AnimatePresence } from 'framer-motion';
 import { useCursor, type CursorVariant } from '../context/CursorContext';
 
@@ -8,7 +8,7 @@ interface ClickRipple {
   y: number;
 }
 
-export const CustomCursor: React.FC = memo(() => {
+export const CustomCursor: React.FC = () => {
   const { cursorVariant, cursorText, isHovered: isContextHovered } = useCursor();
 
   // Mouse & Touch states
@@ -21,13 +21,12 @@ export const CustomCursor: React.FC = memo(() => {
     text: string;
   } | null>(null);
 
-  // Framer Motion spring physics for liquid-smooth cursor movement
-  const springConfig = { damping: 30, stiffness: 300, mass: 0.35 };
+  // Framer Motion spring physics for liquid-smooth cursor movement with slight premium lag
+  const springConfig = { damping: 28, stiffness: 220, mass: 0.45 };
   const cursorX = useSpring(-100, springConfig);
   const cursorY = useSpring(-100, springConfig);
 
   const rippleIdRef = useRef(0);
-  const rafId = useRef<number | null>(null);
 
   // Detect touch device & listen to mouse position
   useEffect(() => {
@@ -45,19 +44,13 @@ export const CustomCursor: React.FC = memo(() => {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (rafId.current !== null) return;
-      const clientX = e.clientX;
-      const clientY = e.clientY;
-      rafId.current = requestAnimationFrame(() => {
-        cursorX.set(clientX);
-        cursorY.set(clientY);
-        rafId.current = null;
-      });
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       const id = ++rippleIdRef.current;
-      setRipples((prev) => [...prev.slice(-3), { id, x: e.clientX, y: e.clientY }]);
+      setRipples((prev) => [...prev.slice(-4), { id, x: e.clientX, y: e.clientY }]);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -66,7 +59,6 @@ export const CustomCursor: React.FC = memo(() => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
-      if (rafId.current !== null) cancelAnimationFrame(rafId.current);
     };
   }, [cursorX, cursorY]);
 
@@ -226,7 +218,7 @@ export const CustomCursor: React.FC = memo(() => {
 
       {/* 3. Main Precision Custom Cursor Outer Ring & Center Text */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full flex items-center justify-center transform-gpu overflow-hidden"
+        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full flex items-center justify-center backdrop-blur-[2px] transform-gpu overflow-hidden"
         style={{
           x: cursorX,
           y: cursorY,
@@ -256,17 +248,17 @@ export const CustomCursor: React.FC = memo(() => {
           borderStyle: 'solid',
           boxShadow:
             activeVariant === 'project'
-              ? '0 0 20px rgba(0, 217, 255, 0.4)'
+              ? '0 0 25px rgba(0, 217, 255, 0.5), inset 0 0 15px rgba(0, 217, 255, 0.25)'
               : activeVariant === 'button'
-              ? '0 0 15px rgba(0, 217, 255, 0.3)'
-              : '0 0 10px rgba(0, 217, 255, 0.25)',
+              ? '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.15)'
+              : '0 0 14px rgba(0, 217, 255, 0.35), inset 0 0 8px rgba(0, 217, 255, 0.1)',
           opacity: activeVariant === 'hidden' ? 0 : 1,
         }}
         transition={{
           type: 'spring',
-          damping: 26,
-          stiffness: 300,
-          mass: 0.3,
+          damping: 24,
+          stiffness: 260,
+          mass: 0.35,
         }}
       >
         {/* Animated Text inside Custom Cursor */}
@@ -274,17 +266,17 @@ export const CustomCursor: React.FC = memo(() => {
           {activeText && (
             <motion.span
               key={activeText}
-              initial={{ opacity: 0, scale: 0.7 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.7 }}
-              transition={{ duration: 0.12, ease: 'easeOut' }}
+              initial={{ opacity: 0, scale: 0.6, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.6, filter: 'blur(4px)' }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
               className={`font-semibold tracking-wider text-white text-center leading-none select-none px-1 ${
                 activeVariant === 'project'
-                  ? 'text-[11px] font-bold tracking-widest text-cyan-200'
+                  ? 'text-[11px] font-bold tracking-widest text-cyan-200 drop-shadow-[0_0_8px_rgba(0,217,255,0.8)]'
                   : activeVariant === 'button'
-                  ? 'text-[10px] font-bold tracking-widest text-white'
+                  ? 'text-[10px] font-bold tracking-widest text-white drop-shadow-[0_0_6px_rgba(0,217,255,0.6)]'
                   : activeVariant === 'nav'
-                  ? `${getNavTextClass(activeText)} text-white`
+                  ? `${getNavTextClass(activeText)} text-white drop-shadow-[0_0_6px_rgba(0,217,255,0.6)]`
                   : 'text-[10px] text-white/90'
               }`}
             >
@@ -295,6 +287,4 @@ export const CustomCursor: React.FC = memo(() => {
       </motion.div>
     </>
   );
-});
-
-CustomCursor.displayName = 'CustomCursor';
+};

@@ -1,4 +1,4 @@
-// Web Audio API Synthesizer & On-Demand Background Music Manager
+// Web Audio API Synthesizer
 class SoundManager {
   private ctx: AudioContext | null = null;
   private enabled: boolean = false;
@@ -37,7 +37,7 @@ class SoundManager {
     try {
       this.initCtx();
       if (!this.ctx) return;
-      
+
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
@@ -92,7 +92,7 @@ class SoundManager {
 
       const now = this.ctx.currentTime;
       const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-      
+
       notes.forEach((freq, idx) => {
         if (!this.ctx) return;
         const osc = this.ctx.createOscillator();

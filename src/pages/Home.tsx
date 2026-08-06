@@ -7,7 +7,7 @@ import { HeroSection } from '../sections/HeroSection';
 import { PROJECTS } from '../constants/portfolio';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
-import { CountUp, Marquee, Tilt } from '../utils/components';
+import { CountUp, Marquee } from '../utils/components';
 import { SEO } from '../components/SEO';
 
 export const Home: React.FC = () => {
@@ -25,13 +25,7 @@ export const Home: React.FC = () => {
       <HeroSection />
 
       {/* 2. Impact Statistics Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-7xl mx-auto px-4 md:px-8"
-      >
+      <section className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
             { label: 'Internships', count: 10, suffix: '+' },
@@ -41,8 +35,12 @@ export const Home: React.FC = () => {
             { label: 'Built Interfaces', count: 20, suffix: '+' },
             { label: 'Dev Hours', count: 1000, suffix: '+' },
           ].map((stat, idx) => (
-            <div
+            <motion.div
               key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ delay: idx * 0.08, duration: 0.5 }}
               className="glass-panel p-5 rounded-3xl border border-white/10 text-center hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300"
             >
               <div className="font-mono font-black text-3xl md:text-4xl text-gradient-aurora mb-1">
@@ -52,10 +50,10 @@ export const Home: React.FC = () => {
               <div className="font-mono text-[11px] text-gray-400 uppercase tracking-wider">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       {/* 3. Featured Showcase Projects */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 space-y-12 overflow-x-clip">
@@ -83,119 +81,106 @@ export const Home: React.FC = () => {
 
         {/* Featured Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredProjects.map((project, idx) => {
-            return (
-              <motion.div
-                key={project.id}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{
-                  duration: 0.5,
-                  delay: (idx % 2) * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+          {featuredProjects.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.5,
+                delay: (idx % 2) * 0.1,
+                ease: 'easeOut',
+              }}
+              className="h-full"
+            >
+              <div
+                onMouseEnter={() => setCursorHover('PROJECT')}
+                onMouseLeave={resetCursor}
+                className="group h-full glass-panel rounded-3xl p-6 border border-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden relative"
               >
-              <Tilt
-                tiltMaxAngleX={6}
-                tiltMaxAngleY={6}
-                perspective={1000}
-                transitionSpeed={1000}
-                className="h-full"
-              >
-                <div
-                  onMouseEnter={() => setCursorHover('PROJECT')}
-                  onMouseLeave={resetCursor}
-                  className="group h-full glass-panel rounded-3xl p-6 border border-white/10 hover:border-cyan-400/60 hover:shadow-[0_0_40px_rgba(0,240,255,0.25)] transition-all duration-500 flex flex-col justify-between overflow-hidden relative light-sweep-effect"
-                >
-                  <div>
-                    {/* Project Image */}
-                    <div className="relative rounded-2xl overflow-hidden aspect-video mb-6 border border-white/10">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        loading="lazy"
-                        decoding="async"
-                        width="600"
-                        height="338"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
+                <div>
+                  {/* Project Image */}
+                  <div className="relative rounded-2xl overflow-hidden aspect-video mb-6 border border-white/10">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
 
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full glass-panel border border-cyan-400/50 text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-widest">
-                          {project.category}
-                        </span>
-                      </div>
-
-                      {project.metrics && (
-                        <div className="absolute bottom-4 left-4 right-4 glass-panel px-4 py-2 rounded-xl border border-white/20 text-xs font-mono text-cyan-300 font-bold">
-                          ⚡ {project.metrics}
-                        </div>
-                      )}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 rounded-full glass-panel border border-cyan-400/50 text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-widest">
+                        {project.category}
+                      </span>
                     </div>
 
-                    <h3 className="text-2xl font-extrabold text-white group-hover:text-cyan-400 transition-colors mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                      {project.description}
-                    </p>
+                    {project.metrics && (
+                      <div className="absolute bottom-4 left-4 right-4 glass-panel px-4 py-2 rounded-xl border border-white/20 text-xs font-mono text-cyan-300 font-bold">
+                        ⚡ {project.metrics}
+                      </div>
+                    )}
                   </div>
 
-                  <div>
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tags.map((tag, tIdx) => (
-                        <span
-                          key={tIdx}
-                          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[11px] font-mono text-gray-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  <h3 className="text-2xl font-extrabold text-white group-hover:text-cyan-400 transition-colors mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                </div>
 
-                    {/* Links */}
-                    <div className="flex items-center space-x-4 pt-4 border-t border-white/10">
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => sound.playClick()}
-                        className="flex items-center space-x-2 text-xs font-mono font-bold text-cyan-400 hover:text-white transition-colors"
+                <div>
+                  {/* Tech Badges */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[11px] font-mono text-gray-300"
                       >
-                        <ExternalLink size={14} />
-                        <span>LIVE DEMO</span>
-                      </a>
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => sound.playClick()}
-                        className="flex items-center space-x-2 text-xs font-mono font-bold text-gray-400 hover:text-white transition-colors"
-                      >
-                        <FaGithub size={14} />
-                        <span>GITHUB</span>
-                      </a>
-                    </div>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div className="flex items-center space-x-4 pt-4 border-t border-white/10">
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="flex items-center space-x-2 text-xs font-mono font-bold text-cyan-400 hover:text-white transition-colors"
+                    >
+                      <ExternalLink size={14} />
+                      <span>LIVE DEMO</span>
+                    </a>
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => sound.playClick()}
+                      className="flex items-center space-x-2 text-xs font-mono font-bold text-gray-400 hover:text-white transition-colors"
+                    >
+                      <FaGithub size={14} />
+                      <span>GITHUB</span>
+                    </a>
                   </div>
                 </div>
-              </Tilt>
+              </div>
             </motion.div>
-          );
-        })}
+          ))}
         </div>
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="relative overflow-hidden py-8 bg-transparent">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+        className="relative overflow-hidden py-8 bg-transparent"
+      >
         {/* Left Fade */}
         <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050816] via-[#050816]/80 to-transparent" />
 
@@ -265,14 +250,14 @@ export const Home: React.FC = () => {
             ))}
           </div>
         </Marquee>
-      </section>
+      </motion.section>
 
       {/* 5. Call to Action Banner */}
       <section className="max-w-7xl mx-auto px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.6 }}
           className="relative rounded-3xl glass-panel p-8 md:p-16 border border-cyan-400/40 text-center overflow-hidden shadow-[0_0_60px_rgba(0,240,255,0.2)]"
         >

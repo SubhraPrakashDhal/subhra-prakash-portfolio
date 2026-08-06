@@ -19,12 +19,10 @@ interface ContactFormData {
 export const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [mapKey, setMapKey] = useState<number>(0);
   const { setCursorHover, resetCursor } = useCursor();
 
   const handleRecenterMap = () => {
-    setIsMapLoaded(true);
     setMapKey((prev) => prev + 1);
     sound.playClick();
   };
@@ -61,31 +59,43 @@ export const Contact: React.FC = () => {
         path="/contact"
       />
       {/* 1. Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-4 text-center max-w-3xl mx-auto"
-      >
-        <span className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest inline-block">
+      <div className="space-y-4 text-center max-w-3xl mx-auto">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
+        >
           INITIATE CONTACT
-        </span>
-        <h1 className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
+        </motion.span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
+        >
           Let's Build Together
-        </h1>
-        <p className="text-gray-400 text-base md:text-lg">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-gray-400 text-base md:text-lg"
+        >
           Have a question, full-stack project idea, or engineering opportunity? Send a message directly into Subhra's inbox.
-        </p>
-      </motion.div>
+        </motion.p>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start [perspective:1000px]">
         {/* Left Column: Direct Info & Social Cards */}
         <motion.div
-          initial={{ opacity: 0, x: -30, scale: 0.98 }}
+          initial={{ opacity: 0, x: -60, scale: 0.95 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
           className="lg:col-span-5 space-y-6"
         >
           <div className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 space-y-6">
@@ -166,37 +176,21 @@ export const Contact: React.FC = () => {
 
           {/* Interactive Google Map Location Card */}
           <div className="glass-panel rounded-3xl border border-cyan-400/30 overflow-hidden relative h-64 md:h-72 shadow-[0_0_30px_rgba(0,240,255,0.15)] group">
-            {isMapLoaded ? (
-              <motion.iframe
-                key={mapKey}
-                initial={{ opacity: 0.5, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                title="Google Map of Patia, Bhubaneswar"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.7188734273574!2d85.8164393!3d20.3541484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19093cc3e1974b%3A0x82db0717cf7b1981!2sPatia%2C%20Bhubaneswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full rounded-3xl"
-              />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-[#090d1a] text-center p-6 space-y-3">
-                <Globe size={32} className="text-cyan-400 animate-pulse" />
-                <div className="font-mono text-xs font-bold text-white uppercase tracking-wider">
-                  PATIA, BHUBANESWAR, ODISHA, INDIA
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsMapLoaded(true)}
-                  className="px-4 py-2 rounded-xl bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-mono text-xs font-bold hover:bg-cyan-400 hover:text-black transition-all cursor-pointer"
-                >
-                  LOAD INTERACTIVE MAP
-                </button>
-              </div>
-            )}
+            <motion.iframe
+              key={mapKey}
+              initial={{ opacity: 0.5, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
+              title="Google Map of Patia, Bhubaneswar"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.7188734273574!2d85.8164393!3d20.3541484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19093cc3e1974b%3A0x82db0717cf7b1981!2sPatia%2C%20Bhubaneswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full h-full rounded-3xl"
+            />
 
             {/* Overlay Glass Status Bar */}
             <div className="absolute bottom-3 left-3 right-3 glass-panel p-3.5 rounded-2xl border border-white/20 backdrop-blur-xl flex items-center justify-between pointer-events-auto shadow-2xl">
@@ -216,7 +210,9 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Premium Re-Center Button */}
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
                 type="button"
                 onClick={handleRecenterMap}
                 onMouseEnter={() => {
@@ -224,23 +220,23 @@ export const Contact: React.FC = () => {
                   sound.playHover();
                 }}
                 onMouseLeave={resetCursor}
-                className="group/btn inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 hover:from-cyan-400 hover:via-cyan-400 hover:to-cyan-400 border border-cyan-400/50 hover:border-cyan-400 text-cyan-300 hover:text-black font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] cursor-pointer shrink-0"
+                className="group/btn inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 hover:from-cyan-400 hover:via-cyan-400 hover:to-cyan-400 border border-cyan-400/50 hover:border-cyan-400 text-cyan-300 hover:text-black font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all duration-300 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] cursor-pointer shrink-0"
                 title="Smoothly re-center map to Patia, Bhubaneswar"
               >
                 <Navigation size={13} className="text-cyan-400 group-hover/btn:text-black transition-transform duration-300 group-hover/btn:rotate-45" />
                 <span>RE-CENTER MAP</span>
                 <RotateCcw size={12} className="text-cyan-400/80 group-hover/btn:text-black transition-transform duration-500 group-hover/btn:-rotate-180" />
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>
 
         {/* Right Column: Glassmorphic Contact Form */}
         <motion.div
-          initial={{ opacity: 0, x: 30, scale: 0.98 }}
+          initial={{ opacity: 0, x: 60, scale: 0.95 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
           className="lg:col-span-7"
         >
           <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} perspective={1000}>

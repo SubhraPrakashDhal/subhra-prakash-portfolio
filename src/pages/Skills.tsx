@@ -19,30 +19,42 @@ export const Skills: React.FC = () => {
         path="/skills"
       />
       {/* 1. Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-4 text-center max-w-3xl mx-auto"
-      >
-        <span className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest inline-block">
+      <div className="space-y-4 text-center max-w-3xl mx-auto">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
+        >
           TECHNICAL PROFICIENCY
-        </span>
-        <h1 className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
+        </motion.span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
+        >
           Skills & Tech Ecosystem
-        </h1>
-        <p className="text-gray-400 text-base md:text-lg">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-gray-400 text-base md:text-lg"
+        >
           Deep mastery across full-stack MERN engineering, frontend animations, cloud server infrastructure, and AI workflow integration.
-        </p>
-      </motion.div>
+        </motion.p>
+      </div>
 
       {/* 2. Infinite Technology Logo Ticker Marquee */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
         className="border-y border-white/10 py-4 bg-cyan-950/20 backdrop-blur-md"
       >
         <Marquee gradient={false} speed={40}>
@@ -72,7 +84,13 @@ export const Skills: React.FC = () => {
       </motion.div>
 
       {/* 3. Category Selectors */}
-      <div className="flex flex-wrap justify-center gap-3">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-wrap justify-center gap-3"
+      >
         {SKILL_CATEGORIES.map((cat, idx) => (
           <button
             key={cat.title}
@@ -94,17 +112,17 @@ export const Skills: React.FC = () => {
             {cat.title}
           </button>
         ))}
-      </div>
+      </motion.div>
 
       {/* 4. Active Category Skills Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {SKILL_CATEGORIES[activeCategoryIndex].skills.map((skill, idx) => (
           <motion.div
             key={skill.name}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: idx * 0.05, duration: 0.4 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ delay: idx * 0.08, duration: 0.5 }}
             className="glass-panel p-6 rounded-3xl border border-white/10 hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300 space-y-4"
           >
             <div className="flex items-center justify-between">
@@ -122,8 +140,8 @@ export const Skills: React.FC = () => {
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.level}%` }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.8, ease: 'easeOut', delay: idx * 0.04 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 1, ease: 'easeOut', delay: idx * 0.08 }}
                 className="h-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF]"
               />
             </div>
