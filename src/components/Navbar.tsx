@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Menu, X, Download, Sparkles } from 'lucide-react';
+import { Menu, X, Download, Sparkles } from 'lucide-react';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { PERSONAL_INFO } from '../constants/portfolio';
@@ -20,7 +20,6 @@ const NAV_LINKS = [
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isSoundOn, setIsSoundOn] = useState(sound.isSoundEnabled());
   const { setCursorHover, resetCursor } = useCursor();
   const location = useLocation();
 
@@ -43,12 +42,6 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
-
-  const toggleSound = () => {
-    const newState = sound.toggleSound();
-    setIsSoundOn(newState);
-    if (newState) sound.playClick();
-  };
 
   return (
     <>
