@@ -46,7 +46,7 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
     if (progress === 100) {
       sound.playWarp();
       const timeout = setTimeout(() => {
-        setIsFinished(true);
+      setIsFinished(true);
         setTimeout(onComplete, 2000);
       }, 800);
       return () => clearTimeout(timeout);

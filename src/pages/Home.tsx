@@ -25,7 +25,13 @@ export const Home: React.FC = () => {
       <HeroSection />
 
       {/* 2. Impact Statistics Section */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 md:px-8"
+      >
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
             { label: 'Internships', count: 10, suffix: '+' },
@@ -35,12 +41,8 @@ export const Home: React.FC = () => {
             { label: 'Built Interfaces', count: 20, suffix: '+' },
             { label: 'Dev Hours', count: 1000, suffix: '+' },
           ].map((stat, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ delay: idx * 0.08, duration: 0.5 }}
               className="glass-panel p-5 rounded-3xl border border-white/10 text-center hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all duration-300"
             >
               <div className="font-mono font-black text-3xl md:text-4xl text-gradient-aurora mb-1">
@@ -50,10 +52,10 @@ export const Home: React.FC = () => {
               <div className="font-mono text-[11px] text-gray-400 uppercase tracking-wider">
                 {stat.label}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* 3. Featured Showcase Projects */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 space-y-12 overflow-x-clip">
@@ -80,37 +82,29 @@ export const Home: React.FC = () => {
         </div>
 
         {/* Featured Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 [perspective:1200px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {featuredProjects.map((project, idx) => {
-            const isLeft = idx % 2 === 0;
             return (
               <motion.div
                 key={project.id}
                 initial={{
                   opacity: 0,
-                  x: isLeft ? -120 : 120,
-                  rotateY: isLeft ? -25 : 25,
-                  rotateX: 12,
-                  scale: 0.88,
+                  y: 30,
                 }}
                 whileInView={{
                   opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  rotateX: 0,
-                  scale: 1,
+                  y: 0,
                 }}
-                viewport={{ once: false, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: 0.8,
-                  delay: (idx % 2) * 0.15,
-                  ease: [0.215, 0.61, 0.355, 1],
+                  duration: 0.5,
+                  delay: (idx % 2) * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                style={{ transformStyle: 'preserve-3d' }}
               >
               <Tilt
-                tiltMaxAngleX={8}
-                tiltMaxAngleY={8}
+                tiltMaxAngleX={6}
+                tiltMaxAngleY={6}
                 perspective={1000}
                 transitionSpeed={1000}
                 className="h-full"
@@ -126,6 +120,10 @@ export const Home: React.FC = () => {
                       <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        width="600"
+                        height="338"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
@@ -197,13 +195,7 @@ export const Home: React.FC = () => {
       </section>
 
       {/* Tech Stack Marquee */}
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="relative overflow-hidden py-8 bg-transparent"
-      >
+      <section className="relative overflow-hidden py-8 bg-transparent">
         {/* Left Fade */}
         <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050816] via-[#050816]/80 to-transparent" />
 
@@ -273,14 +265,14 @@ export const Home: React.FC = () => {
             ))}
           </div>
         </Marquee>
-      </motion.section>
+      </section>
 
       {/* 5. Call to Action Banner */}
       <section className="max-w-7xl mx-auto px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
           className="relative rounded-3xl glass-panel p-8 md:p-16 border border-cyan-400/40 text-center overflow-hidden shadow-[0_0_60px_rgba(0,240,255,0.2)]"
         >

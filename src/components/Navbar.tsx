@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, Menu, X, Download, Sparkles } from 'lucide-react';
@@ -17,7 +17,7 @@ const NAV_LINKS = [
   { name: 'Contact', path: '/contact' },
 ];
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC = memo(() => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(sound.isSoundEnabled());
@@ -26,9 +26,10 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const isPastThreshold = window.scrollY > 40;
+      setScrolled((prev) => (prev !== isPastThreshold ? isPastThreshold : prev));
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -45,7 +46,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[9000] px-4 md:px-8 py-3.5 transition-all duration-500 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-[9000] px-4 md:px-8 py-3.5 transition-all duration-300 pointer-events-none">
         <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Main Unified Floating Glass Capsule */}
           <motion.div
@@ -53,11 +54,11 @@ export const Navbar: React.FC = () => {
               scale: scrolled ? 0.98 : 1,
               y: scrolled ? -2 : 0,
             }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className={`relative w-full rounded-full transition-all duration-500 px-4 md:px-6 py-2 flex items-center justify-between overflow-hidden border backdrop-blur-[32px] ${
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className={`relative w-full rounded-full transition-all duration-300 px-4 md:px-6 py-2 flex items-center justify-between overflow-hidden border backdrop-blur-md ${
               scrolled
-                ? 'bg-[#0f172a]/55 border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.6),_0_0_30px_rgba(0,240,255,0.12)]'
-                : 'bg-[#0f172a]/28 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),_0_0_20px_rgba(0,240,255,0.08)]'
+                ? 'bg-[#0f172a]/70 border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.5),_0_0_20px_rgba(0,240,255,0.1)]'
+                : 'bg-[#0f172a]/40 border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.4),_0_0_15px_rgba(0,240,255,0.06)]'
             }`}
           >
             {/* Soft Ambient Cyan & Blue Radial Glow Behind Glass */}
@@ -144,7 +145,7 @@ export const Navbar: React.FC = () => {
             {/* Right Action Controls */}
             <div className="flex items-center space-x-3 relative z-20">
               {/* Audio Synth Toggle Button */}
-              <button
+              {/* <button
                 onClick={toggleSound}
                 onMouseEnter={() => setCursorHover(isSoundOn ? 'MUTE' : 'UNMUTE')}
                 onMouseLeave={resetCursor}
@@ -153,7 +154,7 @@ export const Navbar: React.FC = () => {
                 title={isSoundOn ? 'Mute Sound FX' : 'Enable Sound FX'}
               >
                 {isSoundOn ? <Volume2 size={16} /> : <VolumeX size={16} className="text-gray-500" />}
-              </button>
+              </button> */}
 
               {/* Download Resume Button */}
               <a
@@ -253,4 +254,6 @@ export const Navbar: React.FC = () => {
       </AnimatePresence>
     </>
   );
-};
+});
+
+Navbar.displayName = 'Navbar';

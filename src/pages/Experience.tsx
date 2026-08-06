@@ -16,38 +16,26 @@ export const Experience: React.FC = () => {
         path="/experience"
       />
       {/* 1. Header Section */}
-      <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="space-y-4 text-center max-w-3xl mx-auto"
+      >
+        <span className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest inline-block">
           CAREER TRAJECTORY
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
+        </span>
+        <h1 className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
           Professional Experience
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg">
           Over 4 years of shipping production code, leading full-stack MERN initiatives, and optimizing user experiences.
-        </motion.p>
-      </div>
+        </p>
+      </motion.div>
 
       {/* 2. Vertical Glowing Timeline */}
-      <div className="relative max-w-4xl mx-auto [perspective:1000px]">
+      <div className="relative max-w-4xl mx-auto">
         {/* Glowing Central Vertical Line */}
         <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] -translate-x-1/2" />
 
@@ -59,26 +47,21 @@ export const Experience: React.FC = () => {
                 key={exp.id}
                 initial={{
                   opacity: 0,
-                  x: isEven ? 80 : -80,
-                  rotateY: isEven ? 15 : -15,
-                  scale: 0.9,
+                  y: 25,
                 }}
                 whileInView={{
                   opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  scale: 1,
+                  y: 0,
                 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1], delay: (idx % 2) * 0.1 }}
-                style={{ transformStyle: 'preserve-3d' }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: (idx % 2) * 0.08 }}
                 className={`relative flex flex-col md:flex-row items-center ${
                   isEven ? 'md:flex-row-reverse' : ''
                 }`}
               >
                 {/* Timeline Center Node */}
                 <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-[#030712] border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_20px_#00F0FF] z-10">
-                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
                 </div>
 
                 {/* Card Container */}

@@ -15,28 +15,25 @@ export const RootLayout: React.FC = () => {
   // Initialize Lenis Smooth Scroll
   useLenis();
 
-  // Page Transition Variants (Apple / Linear / Awwwards Cinematic Reveal)
+  // Fast, Hardware-Accelerated Page Transition Variants
   const pageVariants: Variants = {
     initial: {
       opacity: 0,
-      scale: 0.97,
-      filter: 'blur(10px)',
+      y: 8,
     },
     animate: {
       opacity: 1,
-      scale: 1,
-      filter: 'blur(0px)',
+      y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.35,
         ease: [0.16, 1, 0.3, 1],
       },
     },
     exit: {
       opacity: 0,
-      scale: 1.02,
-      filter: 'blur(12px)',
+      y: -8,
       transition: {
-        duration: 0.4,
+        duration: 0.25,
         ease: [0.7, 0, 0.84, 0],
       },
     },

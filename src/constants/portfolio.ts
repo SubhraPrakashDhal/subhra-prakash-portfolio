@@ -159,7 +159,7 @@ export const PROJECTS: Project[] = [
     category: 'Full Stack',
     tags: ['React.js', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'REST APIs'],
     techStack: ['React.js', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB', 'JWT Authentication', 'REST APIs'],
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=650&q=70&fm=webp',
     featured: true,
     githubUrl: 'https://github.com',
     liveUrl: 'https://example.com',

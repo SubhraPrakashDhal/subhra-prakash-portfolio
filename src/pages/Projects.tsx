@@ -33,44 +33,26 @@ export const Projects: React.FC = () => {
         path="/projects"
       />
       {/* Header Title */}
-      <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
-          PORTFOLIO SHOWCASE
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
-          Crafted Digital Solutions
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
-          Explore production-grade MERN applications, AI agents, high-frequency telemetry dashboards, and 3D web configurators.
-        </motion.p>
-      </div>
-
-      {/* Filter & Search Bar */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="flex flex-col md:flex-row items-center justify-between gap-6 glass-panel p-4 rounded-3xl border border-white/10"
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="space-y-4 text-center max-w-3xl mx-auto"
       >
+        <span className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest inline-block">
+          PORTFOLIO SHOWCASE
+        </span>
+        <h1 className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
+          Crafted Digital Solutions
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg">
+          Explore production-grade MERN applications, AI agents, high-frequency telemetry dashboards, and 3D web configurators.
+        </p>
+      </motion.div>
+
+      {/* Filter & Search Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 glass-panel p-4 rounded-3xl border border-white/10">
         {/* Category Tabs */}
         <div className="flex flex-wrap gap-2 w-full md:w-auto">
           {categories.map((cat) => (
@@ -107,37 +89,31 @@ export const Projects: React.FC = () => {
             className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/60 font-mono transition-colors"
           />
         </div>
-      </motion.div>
+      </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1000px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project, idx) => {
-            const isEven = idx % 2 === 0;
             return (
               <motion.div
                 key={project.id}
                 layout
                 initial={{
                   opacity: 0,
-                  x: isEven ? -60 : 60,
-                  rotateY: isEven ? -15 : 15,
-                  scale: 0.9,
+                  y: 25,
                 }}
                 whileInView={{
                   opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  scale: 1,
+                  y: 0,
                 }}
-                viewport={{ once: false, amount: 0.15 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.6, delay: (idx % 3) * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
-                style={{ transformStyle: 'preserve-3d' }}
+                viewport={{ once: true, amount: 0.15 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: (idx % 3) * 0.06, ease: [0.16, 1, 0.3, 1] }}
               >
               <Tilt
-                tiltMaxAngleX={10}
-                tiltMaxAngleY={10}
+                tiltMaxAngleX={6}
+                tiltMaxAngleY={6}
                 perspective={1000}
                 transitionSpeed={1000}
                 className="h-full"
@@ -157,6 +133,10 @@ export const Projects: React.FC = () => {
                       <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        width="500"
+                        height="312"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
@@ -207,13 +187,13 @@ export const Projects: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl overflow-y-auto"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto"
             onClick={() => setActiveModalProject(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, y: 30 }}
+              initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 30 }}
+              exit={{ scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-3xl w-full glass-panel rounded-3xl p-6 md:p-8 border border-cyan-400/50 shadow-[0_0_60px_rgba(0,240,255,0.3)] my-8"
             >
@@ -229,6 +209,10 @@ export const Projects: React.FC = () => {
                   <img
                     src={activeModalProject.image}
                     alt={activeModalProject.title}
+                    loading="lazy"
+                    decoding="async"
+                    width="800"
+                    height="450"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-70" />

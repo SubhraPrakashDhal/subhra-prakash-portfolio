@@ -2,7 +2,6 @@
 class SoundManager {
   private ctx: AudioContext | null = null;
   private enabled: boolean = false;
-  private bgAudio: HTMLAudioElement | null = null;
 
   constructor() {
     // Zero audio assets preloaded or downloaded on initial page load
@@ -20,45 +19,12 @@ class SoundManager {
     }
   }
 
-  public async startMusic() {
-    if (!this.enabled) return;
-    try {
-      this.initCtx();
-      if (!this.bgAudio && typeof window !== 'undefined') {
-        // Dynamic import: 3.8MB MP3 asset is fetched ONLY when user clicks play
-        // const bgMusicTrack = (await import('../assets/musicMP3/BAILA LENTO (SLOWED).mp3')).default;
-        const bgMusicTrack = (await import('../assets/musicMP3/BAILA LENTO (SLOWED).mp3')).default;
-        this.bgAudio = new Audio(bgMusicTrack);
-        this.bgAudio.loop = true;
-        this.bgAudio.volume = 0.35;
-      }
-      if (this.bgAudio) {
-        await this.bgAudio.play();
-      }
-    } catch {
-      // Audio playback error handling
-    }
-  }
-
-  public pauseMusic() {
-    if (this.bgAudio) {
-      this.bgAudio.pause();
-    }
-  }
-
   public toggleSound(enable?: boolean): boolean {
     if (enable !== undefined) {
       this.enabled = enable;
     } else {
       this.enabled = !this.enabled;
     }
-
-    if (this.enabled) {
-      this.startMusic();
-    } else {
-      this.pauseMusic();
-    }
-
     return this.enabled;
   }
 

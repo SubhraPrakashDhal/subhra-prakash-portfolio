@@ -23,8 +23,6 @@ export const HeroSection: React.FC = () => {
   const portraitScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.65]);
   const portraitY = useTransform(scrollYProgress, [0, 0.8], [0, -120]);
   const portraitRotate = useTransform(scrollYProgress, [0, 0.8], [0, -6]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.2]);
-  const textScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.9]);
 
 
   return (
@@ -35,114 +33,44 @@ export const HeroSection: React.FC = () => {
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         {/* Left Column: Typography & CTAs */}
         <motion.div
-          style={{ opacity: textOpacity, scale: textScale }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-7 flex flex-col justify-center space-y-6 z-10"
         >
           {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)]"
-          >
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)]">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="font-mono text-xs font-bold text-cyan-300 tracking-widest uppercase">
               AVAILABLE FOR NEW OPPORTUNITIES
             </span>
-          </motion.div>
+          </div>
 
-          {/* Heading with Letter-by-Letter Reveal */}
+          {/* Heading */}
           <div className="space-y-2">
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-gray-400 text-lg md:text-2xl font-mono tracking-wider"
-            >
+            <h2 className="text-gray-400 text-lg md:text-2xl font-mono tracking-wider">
               HI, I'M
-            </motion.h2>
+            </h2>
 
-            <motion.h1
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight"
-            >
-              {/* Line 1 on mobile: Subhra Prakash */}
-              <span className="inline-flex flex-wrap items-center mr-3">
-                {Array.from("Subhra Prakash").map((char, index) => (
-                  <motion.span
-                    key={`first-${index}`}
-                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: false, amount: 0.2 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.2 + index * 0.03,
-                      ease: [0.215, 0.61, 0.355, 1],
-                    }}
-                    className={char === ' ' ? 'mr-2.5 sm:mr-4' : 'inline-block hover:text-cyan-400 transition-colors duration-200'}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight">
+              <span className="text-white hover:text-cyan-400 transition-colors duration-300">
+                Subhra Prakash Dhal
               </span>
+            </h1>
 
-              {/* Line 2 on mobile: Dhal */}
-              <span className="block sm:inline-block">
-                {Array.from("Dhal").map((char, index) => (
-                  <motion.span
-                    key={`last-${index}`}
-                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                    whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    viewport={{ once: false, amount: 0.2 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.2 + (index + 15) * 0.03,
-                      ease: [0.215, 0.61, 0.355, 1],
-                    }}
-                    className="inline-block hover:text-cyan-400 transition-colors duration-200"
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            </motion.h1>
-
-            {/* Dynamic Animated Subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2"
-            >
+            {/* Dynamic Subtitle */}
+            <div className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2">
               Frontend Developer | UI/UX Developer | MERN Stack Developer
-            </motion.div>
+            </div>
           </div>
 
           {/* Bio Snippet */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed"
-          >
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed">
             Passionate Frontend & UI/UX Developer specializing in React.js, TypeScript, Tailwind CSS, and the MERN stack. Building scalable enterprise dashboards, AI-powered e-commerce platforms, and user-centric web applications.
-          </motion.p>
+          </p>
 
           {/* Quick Technology Chips */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap gap-2 pt-2"
-          >
+          <div className="flex flex-wrap gap-2 pt-2">
             {[
               { icon: Code, text: 'MERN Stack' },
               { icon: Sparkles, text: 'React 19' },
@@ -160,16 +88,10 @@ export const HeroSection: React.FC = () => {
                 </span>
               );
             })}
-          </motion.div>
+          </div>
 
           {/* Magnetic CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="flex flex-wrap items-center gap-4 pt-4"
-          >
+          <div className="flex flex-wrap items-center gap-4 pt-4">
             {/* View Projects Button */}
             <NavLink
               to="/projects"
@@ -218,7 +140,7 @@ export const HeroSection: React.FC = () => {
               <Mail size={16} className="text-violet-400" />
               <span>CONTACT ME</span>
             </NavLink>
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Right Column: Interactive 3D/Tilt Portrait Card */}
@@ -258,6 +180,10 @@ export const HeroSection: React.FC = () => {
                 <img
                   src={subhraProfImg}
                   alt="Subhra Prakash Dhal Portrait"
+                  decoding="async"
+                  fetchPriority="high"
+                  width="400"
+                  height="500"
                   className="absolute inset-0 w-full h-full object-cover object-top filter saturate-[1.1] contrast-[1.1] group-hover:scale-105 transition-transform duration-700"
                 />
 
