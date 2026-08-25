@@ -7,6 +7,7 @@ import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { SEO } from '../components/SEO';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { handleProjectLinkClick } from '../utils/toast';
 
 export const Projects: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -83,7 +84,7 @@ export const Projects: React.FC = () => {
             placeholder="Search tech or project..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/60 font-mono transition-colors"
+            className="w-full bg-black/40 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-400/60 font-mono transition-colors"
           />
         </div>
       </div>
@@ -146,7 +147,7 @@ export const Projects: React.FC = () => {
 
                     {/* Highlights */}
                     <div className="space-y-1.5 pt-1">
-                      {project.highlights.slice(0, 3).map((h, i) => (
+                      {project.highlights.slice(0, 5).map((h, i) => (
                         <div key={i} className="flex items-start space-x-2 text-[11px] text-gray-300">
                           <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
                           <span className="line-clamp-1">{h}</span>
@@ -174,8 +175,8 @@ export const Projects: React.FC = () => {
                       target="_blank"
                       rel="noreferrer"
                       onMouseEnter={() => sound.playHover()}
-                      onClick={() => sound.playClick()}
-                      className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 text-black font-extrabold text-[11px] font-mono uppercase tracking-wider text-center shadow-lg hover:brightness-110 transition-all flex items-center justify-center space-x-1.5"
+                      onClick={(e) => handleProjectLinkClick(e, project.liveUrl, project.title, 'demo')}
+                      className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 text-black font-extrabold text-[11px] font-mono uppercase tracking-wider text-center shadow-lg hover:brightness-110 transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
                     >
                       <ExternalLink size={14} />
                       <span>LIVE DEMO</span>
@@ -185,8 +186,8 @@ export const Projects: React.FC = () => {
                       target="_blank"
                       rel="noreferrer"
                       onMouseEnter={() => sound.playHover()}
-                      onClick={() => sound.playClick()}
-                      className="px-4 py-2.5 rounded-xl glass-panel border border-white/20 text-white font-mono text-[11px] font-bold uppercase hover:bg-white/10 transition-all flex items-center space-x-1.5"
+                      onClick={(e) => handleProjectLinkClick(e, project.githubUrl, project.title, 'code')}
+                      className="px-4 py-2.5 rounded-xl glass-panel border border-white/20 text-white font-mono text-[11px] font-bold uppercase hover:bg-white/10 transition-all flex items-center space-x-1.5 cursor-pointer"
                     >
                       <FaGithub size={14} />
                       <span>CODE</span>
@@ -201,3 +202,4 @@ export const Projects: React.FC = () => {
     </div>
   );
 };
+

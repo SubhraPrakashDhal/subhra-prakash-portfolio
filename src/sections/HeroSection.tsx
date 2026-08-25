@@ -101,9 +101,9 @@ export const HeroSection: React.FC = () => {
               }}
               onMouseLeave={resetCursor}
               onClick={() => sound.playClick()}
-              className="group relative px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-violet-600 to-pink-600 font-extrabold text-sm text-white tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all duration-300 flex items-center space-x-2 overflow-hidden cursor-pointer transform-gpu"
+              className="group relative px-7 py-3.5 rounded-2xl bg-linear-to-r from-cyan-500 via-violet-600 to-pink-600 font-extrabold text-sm text-white tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all duration-300 flex items-center space-x-2 overflow-hidden cursor-pointer transform-gpu"
             >
-              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out" />
+              <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
               <span>VIEW PROJECTS</span>
               <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </NavLink>
@@ -158,23 +158,23 @@ export const HeroSection: React.FC = () => {
             <div
               onMouseEnter={() => setCursorHover('EXPLORE')}
               onMouseLeave={resetCursor}
-              className="group relative rounded-3xl p-1 bg-gradient-to-br from-cyan-400/40 via-violet-500/20 to-pink-500/40 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,240,255,0.25)] border border-cyan-400/30 overflow-hidden light-sweep-effect transform-gpu"
+              className="group relative rounded-3xl p-1 bg-linear-to-br from-cyan-400/40 via-violet-500/20 to-pink-500/40 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,240,255,0.25)] border border-cyan-400/30 overflow-hidden light-sweep-effect transform-gpu"
               style={{
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
               }}
             >
               {/* Glowing Background Halo inside card */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-violet-500/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/20 via-violet-500/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
               {/* Portrait Container */}
               <div
                 onClick={triggerHeartBurst}
-                className="relative rounded-[22px] bg-[#090d1a] overflow-hidden aspect-[4/5] flex flex-col justify-end p-6 cursor-pointer select-none"
+                className="relative rounded-[22px] bg-[#090d1a] overflow-hidden aspect-4/5 flex flex-col justify-end p-6 cursor-pointer select-none"
               >
                 <HeartOverlay />
                 {/* Developer Portrait */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent z-10" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#030712] via-transparent to-transparent z-10" />
 
                 <img
                   src={subhraProfImg}

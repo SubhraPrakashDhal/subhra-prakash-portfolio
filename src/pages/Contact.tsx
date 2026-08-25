@@ -229,7 +229,7 @@ export const Contact: React.FC = () => {
                     {...register('name', { required: 'Name is required' })}
                     type="text"
                     placeholder="e.g. Sarah Connor"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
                   />
                   {errors.name && (
                     <span className="text-xs text-pink-400 font-mono">{errors.name.message}</span>
@@ -248,7 +248,7 @@ export const Contact: React.FC = () => {
                     })}
                     type="email"
                     placeholder="e.g. sarah@techcorp.com"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
                   />
                   {errors.email && (
                     <span className="text-xs text-pink-400 font-mono">{errors.email.message}</span>
@@ -264,7 +264,7 @@ export const Contact: React.FC = () => {
                     {...register('subject', { required: 'Subject is required' })}
                     type="text"
                     placeholder="e.g. Full Stack MERN Project Opportunity"
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors"
                   />
                   {errors.subject && (
                     <span className="text-xs text-pink-400 font-mono">{errors.subject.message}</span>
@@ -280,7 +280,7 @@ export const Contact: React.FC = () => {
                     {...register('message', { required: 'Message details are required' })}
                     rows={4}
                     placeholder="Share scope, timeline, budget or tech stack goals..."
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors resize-none"
+                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-cyan-400/80 font-mono transition-colors resize-none"
                   />
                   {errors.message && (
                     <span className="text-xs text-pink-400 font-mono">{errors.message.message}</span>
@@ -293,7 +293,7 @@ export const Contact: React.FC = () => {
                   disabled={isSubmitting}
                   onMouseEnter={() => setCursorHover('SEND')}
                   onMouseLeave={resetCursor}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 text-black font-extrabold text-sm tracking-wider font-mono uppercase shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-4 rounded-2xl bg-linear-to-r from-cyan-400 via-violet-500 to-pink-500 text-black font-extrabold text-sm tracking-wider font-mono uppercase shadow-[0_0_30px_rgba(0,240,255,0.4)] hover:shadow-[0_0_50px_rgba(0,240,255,0.7)] transition-all flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
                 >
                   <Send size={18} />
                   <span>{isSubmitting ? 'TRANSMITTING...' : 'TRANSMIT MESSAGE'}</span>

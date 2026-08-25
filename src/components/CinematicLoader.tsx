@@ -61,7 +61,7 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
 
   return (
     <div
-      className={`fixed inset-0 z-[10000] flex flex-col items-center justify-between bg-[#030712] text-white p-8 md:p-16 overflow-hidden bg-noise select-none transition-all duration-700 ease-in-out transform-gpu ${
+      className={`fixed inset-0 z-10000 flex flex-col items-center justify-between bg-[#030712] text-white p-8 md:p-16 overflow-hidden bg-noise select-none transition-all duration-700 ease-in-out transform-gpu ${
         progress === 100 && isFinished ? 'opacity-0 -translate-y-full' : 'opacity-100 translate-y-0'
       }`}
     >
@@ -76,11 +76,11 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
       {/* Center SPD Logo Monogram & Counter */}
       <div className="relative flex flex-col items-center justify-center my-auto">
         {/* Ambient Backlight Glow */}
-        <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 blur-3xl animate-glow" />
+        <div className="absolute w-72 h-72 rounded-full bg-linear-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 blur-3xl animate-glow" />
 
         {/* SPD Animated Monogram Icon */}
         <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-2xl glass-card flex items-center justify-center border border-cyan-400/30 shadow-[0_0_50px_rgba(0,240,255,0.2)] mb-8 animate-fade-in">
-          <div className="text-4xl md:text-5xl font-black font-mono tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-pink-500">
+          <div className="text-4xl md:text-5xl font-black font-mono tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-violet-400 to-pink-500">
             SPD
           </div>
           <div className="absolute inset-0 rounded-2xl border border-cyan-400/50 animate-pulse" />
@@ -103,7 +103,7 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
       <div className="w-full max-w-xl flex flex-col space-y-2">
         <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden relative">
           <div
-            className="h-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] transition-all duration-150 ease-out"
+            className="h-full bg-linear-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] transition-all duration-150 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

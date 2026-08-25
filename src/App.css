@@ -182,3 +182,69 @@
     border-right-color: var(--border);
   }
 }
+@keyframes toast-in {
+  0% {
+    opacity: 0;
+    transform: translateX(35px) scale(0.96);
+    filter: blur(5px);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Dedicated Toastify-Style Auto-Close Progress Bar */
+.project-toast-progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  overflow: hidden;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.project-toast-progress {
+  width: 100%;
+  height: 100%;
+  transform-origin: right center;
+  animation: project-toast-progress var(--toast-duration, 4500ms) linear forwards;
+}
+
+/* Pause progress bar animation when hovering over toast */
+.group:hover .project-toast-progress {
+  animation-play-state: paused !important;
+}
+
+
+.progress-demo {
+  background-color: #00F0FF;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+.progress-code {
+  background-color: #a78bfa;
+  box-shadow: 0 0 10px rgba(167, 139, 250, 0.8), 0 0 15px rgba(167, 139, 250, 0.5);
+}
+
+@keyframes project-toast-progress {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}

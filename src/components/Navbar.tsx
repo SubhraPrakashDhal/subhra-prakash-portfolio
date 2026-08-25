@@ -44,14 +44,14 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[9000] px-4 md:px-8 py-3.5 transition-all duration-500 pointer-events-none">
+      <header className="fixed top-0 left-0 right-0 z-9000 px-4 md:px-8 py-3.5 transition-all duration-500 pointer-events-none">
         <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Main Unified Floating Glass Capsule */}
           <div
             className={`relative w-full rounded-full transition-all duration-500 px-4 md:px-6 py-2 flex items-center justify-between overflow-hidden border backdrop-blur-[32px] transform-gpu ${
               scrolled
-                ? 'scale-[0.98] -translate-y-0.5 bg-[#0f172a]/55 border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.6),_0_0_30px_rgba(0,240,255,0.12)]'
-                : 'scale-100 translate-y-0 bg-[#0f172a]/28 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),_0_0_20px_rgba(0,240,255,0.08)]'
+                ? 'scale-[0.98] -translate-y-0.5 bg-[#0f172a]/55 border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.6),0_0_30px_rgba(0,240,255,0.12)]'
+                : 'scale-100 translate-y-0 bg-[#0f172a]/28 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_20px_rgba(0,240,255,0.08)]'
             }`}
           >
             {/* Soft Ambient Cyan & Blue Radial Glow Behind Glass */}
@@ -60,7 +60,7 @@ export const Navbar: React.FC = () => {
 
             {/* Soft Glass Top Reflection Highlight */}
             <div
-              className="absolute inset-x-0 top-0 h-[1px] pointer-events-none rounded-full z-20"
+              className="absolute inset-x-0 top-0 h-px pointer-events-none rounded-full z-20"
               style={{
                 background:
                   'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.15) 20%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.15) 80%, transparent 100%)',
@@ -86,10 +86,10 @@ export const Navbar: React.FC = () => {
               className="group flex items-center space-x-3 cursor-pointer relative z-20"
             >
               <div className="relative w-10 h-10 rounded-xl glass-card border border-cyan-400/40 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
-                <span className="font-mono font-black text-lg text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
+                <span className="font-mono font-black text-lg text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-violet-400">
                   {PERSONAL_INFO.initials}
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="hidden sm:flex flex-col">
                 <span className="font-bold text-sm text-white tracking-wide group-hover:text-cyan-400 transition-colors">
@@ -116,7 +116,7 @@ export const Navbar: React.FC = () => {
                   className={({ isActive }) =>
                     `relative px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 ${
                       isActive
-                        ? 'text-white bg-gradient-to-r from-cyan-500/30 to-violet-500/30 border border-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.3)]'
+                        ? 'text-white bg-linear-to-r from-cyan-500/30 to-violet-500/30 border border-cyan-400/50 shadow-[0_0_12px_rgba(0,240,255,0.3)]'
                         : 'text-gray-400 hover:text-white border border-transparent'
                     }`
                   }
@@ -141,7 +141,7 @@ export const Navbar: React.FC = () => {
                 }}
                 onMouseLeave={resetCursor}
                 onClick={() => sound.playClick()}
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all duration-300 cursor-pointer"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-full bg-linear-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white text-xs font-bold tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all duration-300 cursor-pointer"
               >
                 <Download size={14} />
                 <span>RESUME</span>
@@ -167,7 +167,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Curtain Overlay */}
       <div
-        className={`fixed inset-0 z-[8999] bg-[#030712]/95 backdrop-blur-2xl pt-24 px-6 pb-12 flex flex-col justify-between overflow-y-auto lg:hidden transition-all duration-300 transform-gpu ${
+        className={`fixed inset-0 z-8999 bg-[#030712]/95 backdrop-blur-2xl pt-24 px-6 pb-12 flex flex-col justify-between overflow-y-auto lg:hidden transition-all duration-300 transform-gpu ${
           mobileMenuOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-full pointer-events-none'
@@ -204,7 +204,7 @@ export const Navbar: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => sound.playClick()}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-violet-600 text-white font-bold text-center tracking-wider shadow-lg flex items-center justify-center space-x-2"
+            className="w-full py-3.5 rounded-2xl bg-linear-to-r from-cyan-500 to-violet-600 text-white font-bold text-center tracking-wider shadow-lg flex items-center justify-center space-x-2"
           >
             <Download size={18} />
             <span>DOWNLOAD FULL RESUME</span>

@@ -81,7 +81,7 @@ export const Skills: React.FC = () => {
             onMouseLeave={resetCursor}
             className={`px-5 py-2.5 rounded-2xl font-mono text-xs font-bold tracking-wider transition-all cursor-pointer ${
               activeCategoryIndex === idx
-                ? 'bg-gradient-to-r from-cyan-400 to-violet-500 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
+                ? 'bg-linear-to-r from-cyan-400 to-violet-500 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)]'
                 : 'glass-panel text-gray-300 hover:text-white hover:border-cyan-400/40'
             }`}
           >
@@ -112,7 +112,7 @@ export const Skills: React.FC = () => {
             <div className="w-full h-2.5 bg-gray-800 rounded-full overflow-hidden relative border border-white/5">
               <div
                 style={{ width: `${skill.level}%` }}
-                className="h-full bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] transition-all duration-1000 ease-out transform-gpu"
+                className="h-full bg-linear-to-r from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] transition-all duration-1000 ease-out transform-gpu"
               />
             </div>
           </div>

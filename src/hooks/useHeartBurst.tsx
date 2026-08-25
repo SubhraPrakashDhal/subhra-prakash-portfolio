@@ -48,7 +48,7 @@ export const useHeartBurst = () => {
           <div className="relative flex items-center justify-center">
             <Heart
               size={h.size}
-              className="text-pink-500 fill-pink-500 filter drop-shadow-[0_0_20px_#ff007f] drop-shadow-[0_0_35px_rgba(236,72,153,0.95)]"
+              className="text-pink-500 fill-pink-500 filter drop-shadow-[0_0_25px_rgba(236,72,153,0.95)]"
             />
             <Heart
               size={h.size * 0.5}

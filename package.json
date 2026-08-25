@@ -27,6 +27,7 @@
     "react-icons": "^5.7.0",
     "react-parallax-tilt": "^1.7.337",
     "react-router-dom": "^7.18.2",
+    "sonner": "^2.0.8",
     "split-type": "^0.3.4",
     "tailwind-merge": "^3.6.0"
   },

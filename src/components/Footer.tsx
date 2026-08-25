@@ -124,7 +124,7 @@ export const Footer: React.FC = () => {
               onMouseEnter={() => setCursorHover('TALK')}
               onMouseLeave={resetCursor}
               onClick={() => sound.playClick()}
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/40 text-cyan-300 font-bold text-xs tracking-widest uppercase hover:bg-cyan-400 hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,240,255,0.2)]"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-linear-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/40 text-cyan-300 font-bold text-xs tracking-widest uppercase hover:bg-cyan-400 hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,240,255,0.2)]"
             >
               Start Conversation →
             </NavLink>
