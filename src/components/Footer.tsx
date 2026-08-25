@@ -1,15 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowUp, Mail, Heart, Sparkles } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { Marquee } from '../utils/components';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { PERSONAL_INFO } from '../constants/portfolio';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export const Footer: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
+
+  useScrollReveal();
 
   const scrollToTop = () => {
     sound.playClick();
@@ -28,13 +30,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="relative z-10 bg-[#030712] border-t border-white/10 pt-16 pb-12 overflow-hidden">
       {/* 1. Infinite Ticker Marquee */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="mb-16 border-y border-white/5 py-4 bg-cyan-950/20 backdrop-blur-md"
-      >
+      <div className="reveal-on-scroll mb-16 border-y border-white/5 py-4 bg-cyan-950/20 backdrop-blur-md">
         <Marquee gradient={false} speed={45}>
           <div className="flex items-center space-x-12 px-6">
             {marqueeItems.map((item, idx) => (
@@ -47,16 +43,10 @@ export const Footer: React.FC = () => {
             ))}
           </div>
         </Marquee>
-      </motion.div>
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10"
-        >
+        <div className="reveal-on-scroll stagger-1 grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10">
           {/* Brand Info */}
           <div className="md:col-span-5 flex flex-col space-y-6">
             <div className="flex items-center space-x-3">
@@ -139,16 +129,10 @@ export const Footer: React.FC = () => {
               Start Conversation →
             </NavLink>
           </div>
-        </motion.div>
+        </div>
 
         {/* Bottom Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-gray-500 space-y-4 sm:space-y-0"
-        >
+        <div className="reveal-on-scroll stagger-2 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-gray-500 space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-1">
             <span>DESIGNED & HANDCRAFTED WITH</span>
             <Heart size={12} className="text-pink-500 fill-pink-500 animate-pulse mx-1" />
@@ -169,7 +153,7 @@ export const Footer: React.FC = () => {
               <ArrowUp size={16} />
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

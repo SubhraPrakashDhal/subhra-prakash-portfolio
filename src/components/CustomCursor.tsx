@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, memo } from 'react';
-import { motion, useSpring, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import { useCursor, type CursorVariant } from '../context/CursorContext';
 
 interface ClickRipple {
@@ -15,20 +14,21 @@ export const CustomCursor: React.FC = memo(() => {
   const [isTouch, setIsTouch] = useState(false);
   const [ripples, setRipples] = useState<ClickRipple[]>([]);
 
-  // DOM auto-hover state (when context hover isn't explicitly active)
+  // DOM auto-hover state
   const [domHover, setDomHover] = useState<{
     variant: CursorVariant;
     text: string;
   } | null>(null);
 
-  // Framer Motion spring physics for liquid-smooth cursor movement
-  const springConfig = { damping: 28, stiffness: 240, mass: 0.4 };
-  const cursorX = useSpring(-100, springConfig);
-  const cursorY = useSpring(-100, springConfig);
+  const ringRef = useRef<HTMLDivElement | null>(null);
+  const auraRef = useRef<HTMLDivElement | null>(null);
 
+  const targetPos = useRef({ x: -100, y: -100 });
+  const currentPos = useRef({ x: -100, y: -100 });
+  const rafIdRef = useRef<number | null>(null);
   const rippleIdRef = useRef(0);
 
-  // Detect touch device & listen to mouse position
+  // Detect touch device & setup hardware-accelerated RAF cursor tracking
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const checkTouch = () => {
@@ -46,30 +46,50 @@ export const CustomCursor: React.FC = memo(() => {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      targetPos.current.x = e.clientX;
+      targetPos.current.y = e.clientY;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       const id = ++rippleIdRef.current;
-      setRipples((prev) => [...prev.slice(-3), { id, x: e.clientX, y: e.clientY }]);
+      setRipples((prev) => [...prev.slice(-2), { id, x: e.clientX, y: e.clientY }]);
+
+      setTimeout(() => {
+        setRipples((prev) => prev.filter((r) => r.id !== id));
+      }, 750);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mousedown', handleMouseDown, { passive: true });
 
+    // Smooth Lerp Loop running on RequestAnimationFrame
+    const updatePosition = () => {
+      const lerp = 0.22;
+      currentPos.current.x += (targetPos.current.x - currentPos.current.x) * lerp;
+      currentPos.current.y += (targetPos.current.y - currentPos.current.y) * lerp;
+
+      const transformStr = `translate3d(${currentPos.current.x}px, ${currentPos.current.y}px, 0) translate(-50%, -50%)`;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = transformStr;
+      }
+      if (auraRef.current) {
+        auraRef.current.style.transform = transformStr;
+      }
+
+      rafIdRef.current = requestAnimationFrame(updatePosition);
+    };
+
+    rafIdRef.current = requestAnimationFrame(updatePosition);
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [cursorX, cursorY]);
-
-  // Remove ripples after animation finishes
-  const removeRipple = useCallback((id: number) => {
-    setRipples((prev) => prev.filter((r) => r.id !== id));
   }, []);
 
-  // Global DOM auto-detection for buttons, project cards, nav links, and data-cursor attributes
+  // Global DOM auto-detection for interactive elements
   useEffect(() => {
     if (isTouch) return;
 
@@ -152,8 +172,8 @@ export const CustomCursor: React.FC = memo(() => {
 
   const activeText = rawText || (activeVariant === 'default' ? 'SPD' : '');
 
-  // Calculate proportional outer ring diameter based on active variant & text length
-  let size = 32; // Default state: 32px diameter
+  // Dynamic sizing math
+  let size = 32;
   if (activeVariant === 'project') {
     size = 110;
   } else if (activeVariant === 'button') {
@@ -174,39 +194,25 @@ export const CustomCursor: React.FC = memo(() => {
 
   return (
     <>
-      {/* 1. Mouse Click Ripple Animations */}
-      <AnimatePresence>
-        {ripples.map((ripple) => (
-          <motion.div
-            key={ripple.id}
-            initial={{ scale: 0.2, opacity: 0.9 }}
-            animate={{ scale: 3.2, opacity: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.85, ease: [0.215, 0.61, 0.355, 1] }}
-            onAnimationComplete={() => removeRipple(ripple.id)}
-            className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full border border-[#00D9FF] shadow-[0_0_20px_rgba(0,217,255,0.6)] transform-gpu"
-            style={{
-              width: 36,
-              height: 36,
-              x: ripple.x,
-              y: ripple.y,
-              translateX: '-50%',
-              translateY: '-50%',
-            }}
-          />
-        ))}
-      </AnimatePresence>
+      {/* 1. Mouse Click Ripples */}
+      {ripples.map((ripple) => (
+        <div
+          key={ripple.id}
+          className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full border border-[#00D9FF] shadow-[0_0_20px_rgba(0,217,255,0.6)] animate-click-ripple"
+          style={{
+            width: 36,
+            height: 36,
+            left: ripple.x,
+            top: ripple.y,
+          }}
+        />
+      ))}
 
-      {/* 2. Soft Ambient Cyan Reactive Aura / Glow */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full blur-2xl opacity-40 transform-gpu"
+      {/* 2. Soft Ambient Cyan Aura / Glow */}
+      <div
+        ref={auraRef}
+        className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full blur-2xl opacity-40 transform-gpu transition-all duration-300 ease-out"
         style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
           width: size * 1.8,
           height: size * 1.8,
           background:
@@ -214,21 +220,16 @@ export const CustomCursor: React.FC = memo(() => {
               ? 'radial-gradient(circle, rgba(0, 217, 255, 0.45) 0%, rgba(0, 217, 255, 0.1) 60%, transparent 80%)'
               : 'radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, rgba(121, 40, 204, 0.15) 60%, transparent 80%)',
         }}
-        transition={{ type: 'spring', damping: 30, stiffness: 220, mass: 0.3 }}
       />
 
       {/* 3. Main Precision Custom Cursor Outer Ring & Center Text */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full flex items-center justify-center backdrop-blur-[2px] transform-gpu overflow-hidden border-[1.5px] border-solid"
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full flex items-center justify-center backdrop-blur-[2px] transform-gpu overflow-hidden border-[1.5px] border-solid transition-all duration-300 ease-out"
         style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
           width: size,
           height: size,
+          opacity: activeVariant === 'hidden' ? 0 : 1,
           backgroundColor:
             activeVariant === 'project'
               ? 'rgba(0, 217, 255, 0.15)'
@@ -251,39 +252,25 @@ export const CustomCursor: React.FC = memo(() => {
               : activeVariant === 'button'
               ? '0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.15)'
               : '0 0 14px rgba(0, 217, 255, 0.35), inset 0 0 8px rgba(0, 217, 255, 0.1)',
-          opacity: activeVariant === 'hidden' ? 0 : 1,
-        }}
-        transition={{
-          type: 'spring',
-          damping: 24,
-          stiffness: 260,
-          mass: 0.35,
         }}
       >
-        {/* Animated Text inside Custom Cursor */}
-        <AnimatePresence mode="wait">
-          {activeText && (
-            <motion.span
-              key={activeText}
-              initial={{ opacity: 0, scale: 0.6, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 0.6, filter: 'blur(4px)' }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              className={`font-semibold tracking-wider text-white text-center leading-none select-none px-1 transform-gpu ${
-                activeVariant === 'project'
-                  ? 'text-[11px] font-bold tracking-widest text-cyan-200 drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]'
-                  : activeVariant === 'button'
-                  ? 'text-[10px] font-bold tracking-widest text-white drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]'
-                  : activeVariant === 'nav'
-                  ? `${getNavTextClass(activeText)} text-white drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]`
-                  : 'text-[10px] text-white/90'
-              }`}
-            >
-              {activeText}
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        {activeText && (
+          <span
+            key={activeText}
+            className={`font-semibold tracking-wider text-white text-center leading-none select-none px-1 transition-all duration-200 ease-out ${
+              activeVariant === 'project'
+                ? 'text-[11px] font-bold tracking-widest text-cyan-200 drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]'
+                : activeVariant === 'button'
+                ? 'text-[10px] font-bold tracking-widest text-white drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]'
+                : activeVariant === 'nav'
+                ? `${getNavTextClass(activeText)} text-white drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]`
+                : 'text-[10px] text-white/90'
+            }`}
+          >
+            {activeText}
+          </span>
+        )}
+      </div>
     </>
   );
 });

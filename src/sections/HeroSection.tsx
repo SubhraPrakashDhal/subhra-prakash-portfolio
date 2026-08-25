@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, Download, Mail, Sparkles, Code, Cpu, Layers } from 'lucide-react';
 import { Tilt } from '../utils/components';
 import { useCursor } from '../context/CursorContext';
@@ -8,6 +7,7 @@ import { sound } from '../utils/sound';
 import { PERSONAL_INFO } from '../constants/portfolio';
 import { useHeartBurst } from '../hooks/useHeartBurst';
 import { initMagneticElement } from '../utils/animations';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import subhraProfImg from '../assets/Subhra_Prof.webp';
 
 export const HeroSection: React.FC = () => {
@@ -19,16 +19,7 @@ export const HeroSection: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
   const { triggerHeartBurst, HeartOverlay } = useHeartBurst();
 
-  // Smooth Scroll Interpolation (Pure vertical Y translation & scale to avoid 3D matrix shaking)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
-
-  const portraitScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.9]);
-  const portraitY = useTransform(scrollYProgress, [0, 0.8], [0, -50]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.2]);
-  const textScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.95]);
+  useScrollReveal();
 
   // Magnetic Hover Physics for CTAs
   useEffect(() => {
@@ -46,119 +37,39 @@ export const HeroSection: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         {/* Left Column: Typography & CTAs */}
-        <motion.div
-          style={{ opacity: textOpacity, scale: textScale }}
-          className="lg:col-span-7 flex flex-col justify-center space-y-6 z-10 transform-gpu"
-        >
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-6 z-10 transform-gpu">
           {/* Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)] transform-gpu"
-          >
+          <div className="reveal-on-scroll inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full glass-panel border border-cyan-400/40 w-max shadow-[0_0_15px_rgba(0,240,255,0.2)] transform-gpu">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="font-mono text-xs font-bold text-cyan-300 tracking-widest uppercase">
               AVAILABLE FOR NEW OPPORTUNITIES
             </span>
-          </motion.div>
+          </div>
 
-          {/* Heading with Letter-by-Letter Stagger Reveal */}
+          {/* Heading */}
           <div className="space-y-2">
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-gray-400 text-lg md:text-2xl font-mono tracking-wider"
-            >
+            <h2 className="reveal-on-scroll stagger-1 text-gray-400 text-lg md:text-2xl font-mono tracking-wider">
               HI, I'M
-            </motion.h2>
+            </h2>
 
-            <motion.h1
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight"
-            >
-              {/* Line 1 on mobile: Subhra Prakash */}
-              <span className="inline-flex flex-wrap items-center mr-3">
-                {Array.from('Subhra Prakash').map((char, index) => (
-                  <motion.span
-                    key={`first-${index}`}
-                    initial={{ opacity: 0, y: 35 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                      duration: 0.45,
-                      delay: 0.15 + index * 0.025,
-                      ease: [0.215, 0.61, 0.355, 1],
-                    }}
-                    className={
-                      char === ' '
-                        ? 'mr-2.5 sm:mr-4'
-                        : 'inline-block hover:text-cyan-400 transition-colors duration-200 transform-gpu'
-                    }
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
+            <h1 className="reveal-on-scroll stagger-2 text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-tight">
+              <span className="hover:text-cyan-400 transition-colors duration-300">Subhra Prakash</span>{' '}
+              <span className="hover:text-cyan-400 transition-colors duration-300">Dhal</span>
+            </h1>
 
-              {/* Line 2 on mobile: Dhal */}
-              <span className="block sm:inline-block">
-                {Array.from('Dhal').map((char, index) => (
-                  <motion.span
-                    key={`last-${index}`}
-                    initial={{ opacity: 0, y: 35 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                      duration: 0.45,
-                      delay: 0.15 + (index + 15) * 0.025,
-                      ease: [0.215, 0.61, 0.355, 1],
-                    }}
-                    className="inline-block hover:text-cyan-400 transition-colors duration-200 transform-gpu"
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            </motion.h1>
-
-            {/* Dynamic Animated Subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2 transform-gpu"
-            >
+            {/* Dynamic Subtitle */}
+            <div className="reveal-on-scroll stagger-3 text-xl sm:text-2xl md:text-3xl font-extrabold text-gradient-aurora pt-2 transform-gpu">
               Frontend Developer | UI/UX Developer | MERN Stack Developer
-            </motion.div>
+            </div>
           </div>
 
           {/* Bio Snippet */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed"
-          >
+          <p className="reveal-on-scroll stagger-4 text-gray-300 text-base md:text-lg max-w-2xl leading-relaxed">
             Passionate Frontend & UI/UX Developer specializing in React.js, TypeScript, Tailwind CSS, and the MERN stack. Building scalable enterprise dashboards, AI-powered e-commerce platforms, and user-centric web applications.
-          </motion.p>
+          </p>
 
           {/* Quick Technology Chips */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex flex-wrap gap-2 pt-2 transform-gpu"
-          >
+          <div className="reveal-on-scroll stagger-4 flex flex-wrap gap-2 pt-2 transform-gpu">
             {[
               { icon: Code, text: 'MERN Stack' },
               { icon: Sparkles, text: 'React 19' },
@@ -176,16 +87,10 @@ export const HeroSection: React.FC = () => {
                 </span>
               );
             })}
-          </motion.div>
+          </div>
 
           {/* GSAP Magnetic CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap items-center gap-4 pt-4 transform-gpu"
-          >
+          <div className="reveal-on-scroll stagger-5 flex flex-wrap items-center gap-4 pt-4 transform-gpu">
             {/* View Projects Button */}
             <NavLink
               ref={btn1Ref}
@@ -237,17 +142,11 @@ export const HeroSection: React.FC = () => {
               <Mail size={16} className="text-violet-400" />
               <span>CONTACT ME</span>
             </NavLink>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Right Column: Interactive 3D/Tilt Portrait Card (Smoothed & Shake-Free) */}
-        <motion.div
-          style={{
-            scale: portraitScale,
-            y: portraitY,
-          }}
-          className="lg:col-span-5 flex justify-center items-center z-20 transform-gpu"
-        >
+        {/* Right Column: Interactive 3D/Tilt Portrait Card */}
+        <div className="reveal-on-scroll stagger-3 lg:col-span-5 flex justify-center items-center z-20 transform-gpu">
           <Tilt
             tiltMaxAngleX={6}
             tiltMaxAngleY={6}
@@ -274,7 +173,7 @@ export const HeroSection: React.FC = () => {
                 className="relative rounded-[22px] bg-[#090d1a] overflow-hidden aspect-[4/5] flex flex-col justify-end p-6 cursor-pointer select-none"
               >
                 <HeartOverlay />
-                {/* Modern Futuristic Abstract Developer Portrait Graphic */}
+                {/* Developer Portrait */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent z-10" />
 
                 <img
@@ -286,7 +185,7 @@ export const HeroSection: React.FC = () => {
                   className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 transform-gpu"
                 />
 
-                {/* Floating Overlay Card (Interactive Glass Widget) */}
+                {/* Floating Overlay Card */}
                 <div className="relative z-20 glass-panel p-4 rounded-2xl border border-white/20 shadow-2xl flex items-center justify-between transform-gpu">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-xl bg-cyan-400/20 border border-cyan-400/50 flex items-center justify-center font-mono font-bold text-cyan-400">
@@ -308,22 +207,18 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
           </Tilt>
-        </motion.div>
+        </div>
       </div>
 
       {/* Hero Scroll Down Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 pointer-events-none opacity-60 transform-gpu"
-      >
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 pointer-events-none opacity-60 transform-gpu animate-bounce-slow">
         <span className="font-mono text-[10px] text-cyan-400 uppercase tracking-widest">
           SCROLL TO EXPLORE
         </span>
         <div className="w-5 h-9 rounded-full border-2 border-cyan-400/40 flex justify-center p-1">
           <div className="w-1 h-2 rounded-full bg-cyan-400 animate-bounce" />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

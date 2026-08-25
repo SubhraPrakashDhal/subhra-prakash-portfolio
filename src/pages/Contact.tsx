@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, CheckCircle2, Navigation, RotateCcw, LocateFixed, Globe } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa';
@@ -8,6 +7,7 @@ import { PERSONAL_INFO } from '../constants/portfolio';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { SEO } from '../components/SEO';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface ContactFormData {
   name: string;
@@ -21,6 +21,8 @@ export const Contact: React.FC = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [mapKey, setMapKey] = useState<number>(0);
   const { setCursorHover, resetCursor } = useCursor();
+
+  useScrollReveal();
 
   const handleRecenterMap = () => {
     setMapKey((prev) => prev + 1);
@@ -60,44 +62,20 @@ export const Contact: React.FC = () => {
       />
       {/* 1. Header Section */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
+        <span className="reveal-on-scroll inline-block px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest">
           INITIATE CONTACT
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
+        </span>
+        <h1 className="reveal-on-scroll stagger-1 text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
           Let's Build Together
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
+        </h1>
+        <p className="reveal-on-scroll stagger-2 text-gray-400 text-base md:text-lg">
           Have a question, full-stack project idea, or engineering opportunity? Send a message directly into Subhra's inbox.
-        </motion.p>
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start [perspective:1000px]">
         {/* Left Column: Direct Info & Social Cards */}
-        <motion.div
-          initial={{ opacity: 0, x: -60, scale: 0.95 }}
-          whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-          className="lg:col-span-5 space-y-6 transform-gpu"
-        >
+        <div className="reveal-on-scroll stagger-2 lg:col-span-5 space-y-6 transform-gpu">
           <div className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 space-y-6">
             <h3 className="text-2xl font-black text-white tracking-tight">Direct Information</h3>
 
@@ -176,11 +154,8 @@ export const Contact: React.FC = () => {
 
           {/* Interactive Google Map Location Card */}
           <div className="glass-panel rounded-3xl border border-cyan-400/30 overflow-hidden relative h-64 md:h-72 shadow-[0_0_30px_rgba(0,240,255,0.15)] group">
-            <motion.iframe
+            <iframe
               key={mapKey}
-              initial={{ opacity: 0.5, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
               title="Google Map of Patia, Bhubaneswar"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.7188734273574!2d85.8164393!3d20.3541484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19093cc3e1974b%3A0x82db0717cf7b1981!2sPatia%2C%20Bhubaneswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
               width="100%"
@@ -189,7 +164,7 @@ export const Contact: React.FC = () => {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="w-full h-full rounded-3xl"
+              className="w-full h-full rounded-3xl transition-all duration-500"
             />
 
             {/* Overlay Glass Status Bar */}
@@ -210,9 +185,7 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Premium Re-Center Button */}
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                whileHover={{ scale: 1.05 }}
+              <button
                 type="button"
                 onClick={handleRecenterMap}
                 onMouseEnter={() => {
@@ -220,25 +193,19 @@ export const Contact: React.FC = () => {
                   sound.playHover();
                 }}
                 onMouseLeave={resetCursor}
-                className="group/btn inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 hover:from-cyan-400 hover:via-cyan-400 hover:to-cyan-400 border border-cyan-400/50 hover:border-cyan-400 text-cyan-300 hover:text-black font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all duration-300 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] cursor-pointer shrink-0"
+                className="group/btn inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500/20 via-violet-500/20 to-pink-500/20 hover:from-cyan-400 hover:via-cyan-400 hover:to-cyan-400 border border-cyan-400/50 hover:border-cyan-400 text-cyan-300 hover:text-black font-mono text-[10px] font-extrabold tracking-wider uppercase transition-all duration-300 shadow-[0_0_20px_rgba(0,240,255,0.25)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] active:scale-95 hover:scale-105 cursor-pointer shrink-0"
                 title="Smoothly re-center map to Patia, Bhubaneswar"
               >
                 <Navigation size={13} className="text-cyan-400 group-hover/btn:text-black transition-transform duration-300 group-hover/btn:rotate-45" />
                 <span>RE-CENTER MAP</span>
                 <RotateCcw size={12} className="text-cyan-400/80 group-hover/btn:text-black transition-transform duration-500 group-hover/btn:-rotate-180" />
-              </motion.button>
+              </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right Column: Glassmorphic Contact Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 60, scale: 0.95 }}
-          whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
-          className="lg:col-span-7 transform-gpu"
-        >
+        <div className="reveal-on-scroll stagger-3 lg:col-span-7 transform-gpu">
           <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} perspective={1000}>
             <div className="glass-panel p-6 md:p-10 rounded-3xl border border-cyan-400/30 shadow-[0_0_50px_rgba(0,240,255,0.15)] relative overflow-hidden">
               <h3 className="text-2xl font-extrabold text-white tracking-tight mb-6">
@@ -246,14 +213,10 @@ export const Contact: React.FC = () => {
               </h3>
 
               {submitStatus === 'success' && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-sm font-mono flex items-center space-x-3"
-                >
+                <div className="mb-6 p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-sm font-mono flex items-center space-x-3 transition-all">
                   <CheckCircle2 size={20} />
                   <span>Message transmitted successfully! Subhra will respond shortly.</span>
-                </motion.div>
+                </div>
               )}
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -338,7 +301,7 @@ export const Contact: React.FC = () => {
               </form>
             </div>
           </Tilt>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

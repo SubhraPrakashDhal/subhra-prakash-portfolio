@@ -1,13 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Code2, Sparkles, Cpu, Palette, Server, BarChart3, Zap, Smartphone, CheckCircle, ArrowRight } from 'lucide-react';
 import { Tilt } from '../utils/components';
 import { SERVICES } from '../constants/portfolio';
 import { useCursor } from '../context/CursorContext';
 import { SEO } from '../components/SEO';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export const Services: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
+
+  useScrollReveal();
 
   const iconMap: Record<string, React.ElementType> = {
     Code2,
@@ -29,33 +31,15 @@ export const Services: React.FC = () => {
       />
       {/* 1. Header Section */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
+        <span className="reveal-on-scroll inline-block px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest">
           ENGINEERING CAPABILITIES
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
+        </span>
+        <h1 className="reveal-on-scroll stagger-1 text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
           Services & Solutions
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
+        </h1>
+        <p className="reveal-on-scroll stagger-2 text-gray-400 text-base md:text-lg">
           High-impact engineering services tailored for high-growth tech startups, digital agencies, and enterprise applications.
-        </motion.p>
+        </p>
       </div>
 
       {/* 2. Services Grid */}
@@ -63,20 +47,13 @@ export const Services: React.FC = () => {
         {SERVICES.map((service, idx) => {
           const IconComponent = iconMap[service.icon] || Code2;
           return (
-            <motion.div
+            <div
               key={service.id}
-              initial={{
-                opacity: 0,
-                y: 25,
+              style={{
+                transitionDelay: `${(idx % 3) * 0.08}s`,
+                transformStyle: 'preserve-3d',
               }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ delay: (idx % 3) * 0.1, duration: 0.5, ease: 'easeOut' }}
-              style={{ transformStyle: 'preserve-3d' }}
-              className="transform-gpu h-full"
+              className="reveal-on-scroll transform-gpu h-full"
             >
               <Tilt
                 tiltMaxAngleX={8}
@@ -125,7 +102,7 @@ export const Services: React.FC = () => {
                   </div>
                 </div>
               </Tilt>
-            </motion.div>
+            </div>
           );
         })}
       </div>
