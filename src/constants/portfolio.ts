@@ -90,6 +90,28 @@ I have worked on enterprise dashboards, AI-powered e-commerce platforms, real es
 
 export const PROJECTS: Project[] = [
   {
+    id: 'multiplayer-gaming-platform',
+    title: 'Real-Time Multiplayer Gaming Platform',
+    subtitle: 'Real-Time 2-Player Gaming & Social Communication Platform',
+    description: 'A real-time multiplayer gaming platform where players can create private rooms, invite friends, communicate through text and voice, and play multiple 2-player games together in one place. Built with real-time networking and a social-first gaming experience.',
+    longDescription: 'A real-time multiplayer gaming platform where players can create private rooms, invite friends, communicate through text and voice, and play multiple 2-player games together in one place. Built with real-time networking, WebSockets, WebRTC audio streaming, and a social-first gaming experience.',
+    category: 'Full Stack',
+    tags: ['React', 'TypeScript', 'WebSockets', 'Node.js', 'Express.js', 'Socket.IO', 'WebRTC', 'REST APIs'],
+    techStack: ['React', 'TypeScript', 'WebSockets', 'Node.js', 'Express.js', 'Socket.IO', 'WebRTC', 'REST APIs'],
+    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+    featured: true,
+    githubUrl: 'https://github.com/SubhraPrakashDhal/Bingo-Game',
+    liveUrl: 'https://bingo-game-subhra.vercel.app/',
+    metrics: 'WebSockets & Live Voice Room',
+    highlights: [
+      'Multiple games in one platform',
+      'Private real-time 2-player rooms',
+      'Live voice + text chat',
+      'Real-time synchronized gameplay',
+      'Bingo, Dots & Boxes, Tic-Tac-Toe and many',
+    ],
+  },
+  {
     id: 'retail-ai-ecommerce',
     title: 'Retail AI E-Commerce Platform',
     subtitle: 'AI-Powered Enterprise Commerce & Management Suite',

@@ -35,7 +35,7 @@ export const About: React.FC = () => {
       </div>
 
       {/* 2. Premium Split Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center [perspective:1000px]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center perspective-[1000px]">
         {/* Left Column: Portrait & Stats Cards */}
         <div className="reveal-on-scroll stagger-2 lg:col-span-5 flex flex-col items-center">
           <Tilt
@@ -47,11 +47,11 @@ export const About: React.FC = () => {
             <div
               onMouseEnter={() => setCursorHover('Click Me!')}
               onMouseLeave={resetCursor}
-              className="relative rounded-3xl p-1 bg-gradient-to-tr from-cyan-400/40 via-violet-500/20 to-pink-500/40 glass-panel border border-cyan-400/30 overflow-hidden shadow-[0_0_50px_rgba(0,240,255,0.2)]"
+              className="relative rounded-3xl p-1 bg-linear-to-tr from-cyan-400/40 via-violet-500/20 to-pink-500/40 glass-panel border border-cyan-400/30 overflow-hidden shadow-[0_0_50px_rgba(0,240,255,0.2)]"
             >
               <div
                 onClick={triggerHeartBurst}
-                className="relative rounded-[22px] overflow-hidden aspect-[4/5] bg-[#090d1a] cursor-pointer select-none"
+                className="relative rounded-[22px] overflow-hidden aspect-4/5 bg-[#090d1a] cursor-pointer select-none"
               >
                 <HeartOverlay />
                 <img
@@ -61,7 +61,8 @@ export const About: React.FC = () => {
                   decoding="async"
                   className="w-full h-full object-cover object-top filter contrast-105 saturate-[1.05] transform-gpu"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#030712] via-transparent to-transparent opacity-90" />
+
 
                 <div className="absolute bottom-6 left-6 right-6 glass-panel p-4 rounded-2xl border border-white/20">
                   <div className="font-mono text-xs font-bold text-cyan-400">

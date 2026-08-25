@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useOutlet } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { CustomCursor } from '../components/CustomCursor';
@@ -16,6 +17,9 @@ export const RootLayout: React.FC = () => {
 
   return (
     <div className="relative min-h-screen text-white bg-[#030712] selection:bg-cyan-500/30 font-sans">
+      {/* Toast Notifications */}
+      <Toaster position="bottom-right" theme="dark" />
+
       {/* 0. Scroll Restoration Handler */}
       <ScrollToTop />
 
@@ -40,3 +44,4 @@ export const RootLayout: React.FC = () => {
     </div>
   );
 };
+

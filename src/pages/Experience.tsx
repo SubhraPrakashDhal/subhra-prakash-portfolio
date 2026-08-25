@@ -31,9 +31,9 @@ export const Experience: React.FC = () => {
       </div>
 
       {/* 2. Vertical Glowing Timeline */}
-      <div className="relative max-w-4xl mx-auto [perspective:1000px]">
-        {/* Glowing Central Vertical Line */}
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-400 via-violet-500 to-pink-500 shadow-[0_0_15px_#00F0FF] -translate-x-1/2" />
+      <div className="relative perspective-[1000px]">
+        {/* Center Vertical Timeline Cable Glow */}
+        <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-linear-to-b from-cyan-400 via-violet-500 to-pink-500 rounded-full shadow-[0_0_15px_rgba(0,240,255,0.6)]" />
 
         <div className="space-y-12">
           {EXPERIENCES.map((exp, idx) => {

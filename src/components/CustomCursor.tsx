@@ -198,12 +198,13 @@ export const CustomCursor: React.FC = memo(() => {
       {ripples.map((ripple) => (
         <div
           key={ripple.id}
-          className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full border border-[#00D9FF] shadow-[0_0_20px_rgba(0,217,255,0.6)] animate-click-ripple"
+          className="fixed top-0 left-0 pointer-events-none z-2147483646 rounded-full border border-[#00D9FF] shadow-[0_0_20px_rgba(0,217,255,0.6)] animate-click-ripple"
           style={{
             width: 36,
             height: 36,
             left: ripple.x,
             top: ripple.y,
+            zIndex: 2147483646,
           }}
         />
       ))}
@@ -211,10 +212,11 @@ export const CustomCursor: React.FC = memo(() => {
       {/* 2. Soft Ambient Cyan Aura / Glow */}
       <div
         ref={auraRef}
-        className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full blur-2xl opacity-40 transform-gpu transition-all duration-300 ease-out"
+        className="fixed top-0 left-0 pointer-events-none z-2147483646 rounded-full blur-2xl opacity-40 transform-gpu transition-all duration-300 ease-out"
         style={{
           width: size * 1.8,
           height: size * 1.8,
+          zIndex: 2147483646,
           background:
             activeVariant === 'project'
               ? 'radial-gradient(circle, rgba(0, 217, 255, 0.45) 0%, rgba(0, 217, 255, 0.1) 60%, transparent 80%)'
@@ -225,11 +227,13 @@ export const CustomCursor: React.FC = memo(() => {
       {/* 3. Main Precision Custom Cursor Outer Ring & Center Text */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 pointer-events-none z-[99999] rounded-full flex items-center justify-center backdrop-blur-[2px] transform-gpu overflow-hidden border-[1.5px] border-solid transition-all duration-300 ease-out"
+        className="fixed top-0 left-0 pointer-events-none z-2147483647 rounded-full flex items-center justify-center backdrop-blur-[2px] transform-gpu overflow-hidden border-[1.5px] border-solid transition-all duration-300 ease-out"
         style={{
           width: size,
           height: size,
+          zIndex: 2147483647,
           opacity: activeVariant === 'hidden' ? 0 : 1,
+
           backgroundColor:
             activeVariant === 'project'
               ? 'rgba(0, 217, 255, 0.15)'

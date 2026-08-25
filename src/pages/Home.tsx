@@ -9,6 +9,7 @@ import { sound } from '../utils/sound';
 import { CountUp, Marquee } from '../utils/components';
 import { SEO } from '../components/SEO';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { handleProjectLinkClick } from '../utils/toast';
 
 export const Home: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
@@ -101,7 +102,7 @@ export const Home: React.FC = () => {
                       decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-105 transform-gpu"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
+                    <div className="absolute inset-0 bg-linear-to-t from-[#030712] via-transparent to-transparent opacity-80" />
 
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 rounded-full glass-panel border border-cyan-400/50 text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-widest">
@@ -143,8 +144,8 @@ export const Home: React.FC = () => {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={() => sound.playClick()}
-                      className="flex items-center space-x-2 text-xs font-mono font-bold text-cyan-400 hover:text-white transition-colors"
+                      onClick={(e) => handleProjectLinkClick(e, project.liveUrl, project.title, 'demo')}
+                      className="flex items-center space-x-2 text-xs font-mono font-bold text-cyan-400 hover:text-white transition-colors cursor-pointer"
                     >
                       <ExternalLink size={14} />
                       <span>LIVE DEMO</span>
@@ -153,8 +154,8 @@ export const Home: React.FC = () => {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      onClick={() => sound.playClick()}
-                      className="flex items-center space-x-2 text-xs font-mono font-bold text-gray-400 hover:text-white transition-colors"
+                      onClick={(e) => handleProjectLinkClick(e, project.githubUrl, project.title, 'code')}
+                      className="flex items-center space-x-2 text-xs font-mono font-bold text-gray-400 hover:text-white transition-colors cursor-pointer"
                     >
                       <FaGithub size={14} />
                       <span>GITHUB</span>
@@ -167,13 +168,14 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+
       {/* Tech Stack Marquee */}
       <section className="reveal-on-scroll relative overflow-hidden py-8 bg-transparent">
         {/* Left Fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[#050816] via-[#050816]/80 to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-linear-to-r from-[#050816] via-[#050816]/80 to-transparent" />
 
         {/* Right Fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[#050816] via-[#050816]/80 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-linear-to-l from-[#050816] via-[#050816]/80 to-transparent" />
 
         {/* First Row */}
         <Marquee gradient={false} speed={45}>
@@ -192,7 +194,7 @@ export const Home: React.FC = () => {
             ].map((tech) => (
               <div
                 key={tech}
-                className="group flex items-center gap-3 rounded-full border border-white/5 bg-white/[0.03] px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+                className="group flex items-center gap-3 rounded-full border border-white/5 bg-white/3 px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
               >
                 <span className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-gray-400 transition-colors duration-300 group-hover:text-white">
                   {tech}
@@ -224,7 +226,7 @@ export const Home: React.FC = () => {
             ].map((tech) => (
               <div
                 key={tech}
-                className="group flex items-center gap-3 rounded-full border border-white/5 bg-white/[0.03] px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+                className="group flex items-center gap-3 rounded-full border border-white/5 bg-white/3 px-6 py-3 backdrop-blur-md transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
               >
                 <span className="font-mono text-sm font-semibold tracking-[0.18em] uppercase text-gray-400 transition-colors duration-300 group-hover:text-white">
                   {tech}
@@ -243,7 +245,7 @@ export const Home: React.FC = () => {
       {/* 5. Call to Action Banner */}
       <section className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="reveal-on-scroll relative rounded-3xl glass-panel p-8 md:p-16 border border-cyan-400/40 text-center overflow-hidden shadow-[0_0_60px_rgba(0,240,255,0.2)]">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-violet-500/10 to-pink-500/10" />
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-500/10 via-violet-500/10 to-pink-500/10" />
 
           <div className="relative z-10 max-w-3xl mx-auto space-y-6 ">
             <span className="px-4 py-2 rounded-full glass-panel border border-cyan-400/50 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest">
@@ -261,7 +263,7 @@ export const Home: React.FC = () => {
                 onMouseEnter={() => setCursorHover('CONTACT')}
                 onMouseLeave={resetCursor}
                 onClick={() => sound.playClick()}
-                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 text-[white] font-extrabold text-sm tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.5)] hover:shadow-[0_0_50px_rgba(0,240,255,0.8)] hover:scale-105 transition-all duration-300"
+                className="px-8 py-4 rounded-2xl bg-linear-to-r from-cyan-400 via-violet-500 to-pink-500 text-[white] font-extrabold text-sm tracking-wider shadow-[0_0_30px_rgba(0,240,255,0.5)] hover:shadow-[0_0_50px_rgba(0,240,255,0.8)] hover:scale-105 transition-all duration-300"
               >
                 INITIATE CONTACT NOW →
               </NavLink>

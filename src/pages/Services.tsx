@@ -43,7 +43,7 @@ export const Services: React.FC = () => {
       </div>
 
       {/* 2. Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1000px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-[1000px]">
         {SERVICES.map((service, idx) => {
           const IconComponent = iconMap[service.icon] || Code2;
           return (
