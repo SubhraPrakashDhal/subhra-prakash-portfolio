@@ -1,12 +1,14 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Calendar, MapPin, CheckCircle2, Building2 } from 'lucide-react';
 import { EXPERIENCES } from '../constants/portfolio';
 import { useCursor } from '../context/CursorContext';
 import { SEO } from '../components/SEO';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export const Experience: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
+
+  useScrollReveal();
 
   return (
     <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-16">
@@ -17,33 +19,15 @@ export const Experience: React.FC = () => {
       />
       {/* 1. Header Section */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
+        <span className="reveal-on-scroll inline-block px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest">
           CAREER TRAJECTORY
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
+        </span>
+        <h1 className="reveal-on-scroll stagger-1 text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
           Professional Experience
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
+        </h1>
+        <p className="reveal-on-scroll stagger-2 text-gray-400 text-base md:text-lg">
           Over 4 years of shipping production code, leading full-stack MERN initiatives, and optimizing user experiences.
-        </motion.p>
+        </p>
       </div>
 
       {/* 2. Vertical Glowing Timeline */}
@@ -55,20 +39,13 @@ export const Experience: React.FC = () => {
           {EXPERIENCES.map((exp, idx) => {
             const isEven = idx % 2 === 0;
             return (
-              <motion.div
+              <div
                 key={exp.id}
-                initial={{
-                  opacity: 0,
-                  y: 25,
+                style={{
+                  transitionDelay: `${(idx % 2) * 0.1}s`,
+                  transformStyle: 'preserve-3d',
                 }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, ease: 'easeOut', delay: (idx % 2) * 0.1 }}
-                style={{ transformStyle: 'preserve-3d' }}
-                className={`relative flex flex-col md:flex-row items-center transform-gpu ${
+                className={`reveal-on-scroll relative flex flex-col md:flex-row items-center transform-gpu ${
                   isEven ? 'md:flex-row-reverse' : ''
                 }`}
               >
@@ -134,7 +111,7 @@ export const Experience: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Trophy, Medal, ExternalLink, Code } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { Tilt } from '../utils/components';
@@ -7,9 +6,12 @@ import { ACHIEVEMENTS } from '../constants/portfolio';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
 import { SEO } from '../components/SEO';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export const Achievements: React.FC = () => {
   const { setCursorHover, resetCursor } = useCursor();
+
+  useScrollReveal();
 
   return (
     <div className="pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-16">
@@ -20,33 +22,15 @@ export const Achievements: React.FC = () => {
       />
       {/* 1. Header Section */}
       <div className="space-y-4 text-center max-w-3xl mx-auto">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest"
-        >
+        <span className="reveal-on-scroll inline-block px-4 py-1.5 rounded-full glass-panel border border-cyan-400/40 font-mono text-xs font-bold text-cyan-300 uppercase tracking-widest">
           RECOGNITION & METRICS
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-4xl pt-6 md:text-6xl font-black text-white tracking-tight"
-        >
+        </span>
+        <h1 className="reveal-on-scroll stagger-1 text-4xl pt-6 md:text-6xl font-black text-white tracking-tight">
           Achievements & Coding Profiles
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-gray-400 text-base md:text-lg"
-        >
+        </h1>
+        <p className="reveal-on-scroll stagger-2 text-gray-400 text-base md:text-lg">
           A summary of enterprise MERN applications, 10+ software development internships, 2 NPTEL certifications, and scalable React architectures.
-        </motion.p>
+        </p>
       </div>
 
       {/* 2. Coding Platform & Experience Stats Grid */}
@@ -59,13 +43,10 @@ export const Achievements: React.FC = () => {
         ].map((stat, idx) => {
           const StatIcon = stat.icon;
           return (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="glass-panel p-6 rounded-3xl border border-white/10 text-center hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all"
+              style={{ transitionDelay: `${idx * 0.08}s` }}
+              className="reveal-on-scroll glass-panel p-6 rounded-3xl border border-white/10 text-center hover:border-cyan-400/50 hover:shadow-[0_0_30px_rgba(0,240,255,0.2)] transition-all"
             >
               <div className="w-10 h-10 rounded-xl bg-cyan-400/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 mx-auto mb-3">
                 <StatIcon size={20} />
@@ -73,19 +54,13 @@ export const Achievements: React.FC = () => {
               <div className="font-mono font-black text-3xl text-white mb-1">{stat.val}</div>
               <div className="font-bold text-xs text-cyan-300">{stat.title}</div>
               <div className="font-mono text-[10px] text-gray-500">{stat.desc}</div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
 
       {/* 3. GitHub Contribution Heatmap Mock Widget */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="glass-panel p-6 md:p-8 rounded-3xl border border-white/10 space-y-4"
-      >
+      <div className="reveal-on-scroll stagger-3 glass-panel p-6 md:p-8 rounded-3xl border border-white/10 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <FaGithub size={20} className="text-cyan-400" />
@@ -111,26 +86,19 @@ export const Achievements: React.FC = () => {
             return <div key={i} className={`h-8 rounded-lg ${bgClass} transition-colors`} />;
           })}
         </div>
-      </motion.div>
+      </div>
 
       {/* 4. Certifications & Honors Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1000px]">
         {ACHIEVEMENTS.map((ach, idx) => {
           return (
-            <motion.div
+            <div
               key={ach.id}
-              initial={{
-                opacity: 0,
-                y: 25,
+              style={{
+                transitionDelay: `${(idx % 3) * 0.08}s`,
+                transformStyle: 'preserve-3d',
               }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ delay: (idx % 3) * 0.1, duration: 0.5, ease: 'easeOut' }}
-              style={{ transformStyle: 'preserve-3d' }}
-              className="transform-gpu h-full"
+              className="reveal-on-scroll transform-gpu h-full"
             >
               <Tilt tiltMaxAngleX={8} tiltMaxAngleY={8} perspective={1000} className="h-full">
                 <div
@@ -175,7 +143,7 @@ export const Achievements: React.FC = () => {
                   </div>
                 </div>
               </Tilt>
-            </motion.div>
+            </div>
           );
         })}
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useCursor } from '../context/CursorContext';
 import { sound } from '../utils/sound';
@@ -10,12 +9,7 @@ export const NotFound: React.FC = () => {
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 pt-20">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-6 max-w-lg"
-      >
+      <div className="space-y-6 max-w-lg animate-fade-in">
         <div className="relative inline-block">
           <span className="font-mono font-black text-8xl md:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 tracking-tighter">
             404
@@ -45,7 +39,7 @@ export const NotFound: React.FC = () => {
             <span>RETURN TO REALITY</span>
           </NavLink>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
